@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.9.3'
+}
+
+group 'selenium.practice'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    allureVersion = '2.15.0'
+    junitVersion = '5.10.0'
+    seleniumVersion = '4.11.0'
+    assertJVersion = '3.24.2'
+    hamcrestVersion = '2.2'
+    slf4jVersion = '2.0.5'
+    javaFakerVersion = '1.0.2'
+}
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    implementation("org.seleniumhq.selenium:selenium-java:${seleniumVersion}")
+    testImplementation("org.assertj:assertj-core:${assertJVersion}")
+    testImplementation("org.hamcrest:hamcrest:${hamcrestVersion}")
+    testImplementation("org.slf4j:slf4j-simple:${slf4jVersion}")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    testImplementation("com.github.javafaker:javafaker:${javaFakerVersion}")
+
+}
+
+test {
+    useJUnitPlatform()
+}
+allure {
+    version = "${allureVersion}"
+
+    useJUnit5 {
+        version = "${allureVersion}"
+    }
+}
