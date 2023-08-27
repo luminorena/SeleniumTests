@@ -11,5 +11,4 @@ public class Person {
     public String email = faker.internet().emailAddress();
     public String firstAddress = faker.address().fullAddress();
     public String secondAddress = faker.address().secondaryAddress();
-
 }

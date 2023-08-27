@@ -26,6 +26,38 @@ public class CheckBoxPage {
     @FindBy(className = "rct-node-collapsed")
     public WebElement collapseAllVisible;
 
+    @FindBy(className = "rct-collapse-btn")
+    public WebElement collapseButton;
+
+    @FindBy(css = "span.rct-checkbox")
+    public WebElement mainCheckbox;
+
+    @FindBy(css = ".rct-icon.rct-icon-check")
+    public WebElement mainCheckBoxIsChecked;
+
+    @FindBy(css = ".rct-node.rct-node-parent.rct-node-collapsed")
+    public List<WebElement> nodeCheckBoxes;
+
+    @FindBy(css = ".rct-icon.rct-icon-expand-close")
+    public List<WebElement> nodeButtons;
+
+
+    @FindBy (css = "svg.rct-icon.rct-icon-expand-close > path")
+    public List<WebElement> innerNodeButtons;
+    @FindBy (css = "svg.rct-icon.rct-icon-expand-close > path")
+    public WebElement innerNode;
+
+    @FindBy (xpath = "//input[@type='checkbox']")
+    public List<WebElement> checkboxCount;
+
+    @FindBy (className = "rct-title")
+    public List<WebElement> allActiveLabels;
+
+    @FindBy (xpath = "//span[@class='text-success']")
+    public List<WebElement> searchPanel;
+
+
+
     public CheckBoxPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
