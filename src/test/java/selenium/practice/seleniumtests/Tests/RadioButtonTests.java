@@ -37,7 +37,6 @@ public class RadioButtonTests extends TestBase {
     @Test
     public void radioButtonImpressiveTest() {
         radioButtonPage = new RadioButtonPage(driver);
-
         step("Перейти в блок 'Elements' и выбрать 'TextBox'", () -> {
             js.executeScript("window.scrollBy(0,350)", "");
             radioButtonPage.elements.click();
@@ -46,9 +45,10 @@ public class RadioButtonTests extends TestBase {
         });
 
         step("Нажать на радиокнопку 'Impressive'", () -> {
-
             actions.moveToElement(radioButtonPage.impressiveRadio).click().perform();
         });
+
+        // to change impressive
 
         step("Проверить, что при нажати на радиокнопку 'Impressive' верно отображатеся её название", () -> {
             Assertions.assertEquals("Impressive", radioButtonPage.successResultImpressive.getText());
