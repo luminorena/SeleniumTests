@@ -1,6 +1,7 @@
 package selenium.practice.seleniumtests.Tests;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import selenium.practice.seleniumtests.Pages.RadioButtonPage;
@@ -16,20 +17,12 @@ public class RadioButtonTests extends TestBase {
     public void radioButtonYesTest() {
         radioButtonPage = new RadioButtonPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'RadioButton'", () -> {
-            js.executeScript("window.scrollBy(0,350)", "");
-            radioButtonPage.elements.click();
-            js.executeScript("window.scrollBy(0,-350)", "");
-            radioButtonPage.textBox.get(2).click();
+          radioButtonPage.openRadioButtonPage(js);
         });
 
-        step("Нажать на радиокнопку 'Yes'", () -> {
-            actions.moveToElement(radioButtonPage.yesRadioButton).click().perform();
+        step("Нажать на радиокнопку 'Yes' и проверить её отображение", () -> {
+            radioButtonPage.checkYesRadioButton(driver, actions);
         });
-
-        step("Проверить, что при нажати на радиокнопку 'Yes' верно отображатеся её название", () -> {
-            Assertions.assertEquals("Yes", radioButtonPage.successResultYesRadio.getText());
-        });
-
     }
 
 
@@ -37,44 +30,25 @@ public class RadioButtonTests extends TestBase {
     @Test
     public void radioButtonImpressiveTest() {
         radioButtonPage = new RadioButtonPage(driver);
-        step("Перейти в блок 'Elements' и выбрать 'TextBox'", () -> {
-            js.executeScript("window.scrollBy(0,350)", "");
-            radioButtonPage.elements.click();
-            js.executeScript("window.scrollBy(0,-350)", "");
-            radioButtonPage.textBox.get(2).click();
+        step("Перейти в блок 'Elements' и выбрать 'RadioButton'", () -> {
+            radioButtonPage.openRadioButtonPage(js);
         });
 
-        step("Нажать на радиокнопку 'Impressive'", () -> {
-            actions.moveToElement(radioButtonPage.impressiveRadio).click().perform();
+        step("Нажать на радиокнопку 'Impressive' и проверить её отображение", () -> {
+            radioButtonPage.checkImpressiveButton(driver, actions);
         });
-
-        // to change impressive
-
-        step("Проверить, что при нажати на радиокнопку 'Impressive' верно отображатеся её название", () -> {
-            Assertions.assertEquals("Impressive", radioButtonPage.successResultImpressive.getText());
-        });
-
     }
 
     @Test
     @DisplayName("Проверка радиокнопки 'No'")
     public void radioButtonNoTest() {
         radioButtonPage = new RadioButtonPage(driver);
-
-        step("Перейти в блок 'Elements' и выбрать 'TextBox'", () -> {
-            js.executeScript("window.scrollBy(0,350)", "");
-            radioButtonPage.elements.click();
-            js.executeScript("window.scrollBy(0,-350)", "");
-            radioButtonPage.textBox.get(2).click();
+        step("Перейти в блок 'Elements' и выбрать 'RadioButton'", () -> {
+            radioButtonPage.openRadioButtonPage(js);
         });
 
-        step("Нажать на радиокнопку 'No'", () -> {
-            actions.moveToElement(radioButtonPage.noRadio).click().perform();
-        });
-
-        step("Проверить, что при нажати на радиокнопку 'No' она задизейблена", () -> {
-            boolean enabled = radioButtonPage.noRadio.isEnabled();
-            Assertions.assertFalse(enabled);
+        step("Нажать на радиокнопку 'No' и проверить её отображение", () -> {
+           radioButtonPage.checkNoButton(driver, actions);
         });
     }
 }

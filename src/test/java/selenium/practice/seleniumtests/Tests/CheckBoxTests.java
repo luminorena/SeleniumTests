@@ -76,7 +76,9 @@ public class CheckBoxTests extends TestBase {
             ArrayList<String> allActiveLabels = new ArrayList<>();
 
             for (WebElement labs : checkBoxPage.allActiveLabels) {
-                allActiveLabels.add(labs.getText().toLowerCase().replace(".doc", "").replace(" ", ""));
+                allActiveLabels.add(labs.getText().toLowerCase()
+                        .replace(".doc", "")
+                        .replace(" ", ""));
             }
 
             ArrayList<String> searchPanel = new ArrayList<>();

@@ -10,10 +10,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import selenium.practice.seleniumtests.Data.Person;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static java.lang.Thread.sleep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 
@@ -25,73 +27,72 @@ public class WebTablesPage {
     Person person = new Person();
 
 
-    @FindBy(xpath = "//*[@id=\"linkWrapper\"]/h5/strong")
-    public List<WebElement> title;
-    // todo change public to private
-    // todo should I create  getters/setters?
+//    @FindBy(xpath = "//*[@id=\"linkWrapper\"]/h5/strong")
+//    private List<WebElement> title;
+
 
     @FindBy(className = "card-body")
-    public WebElement elements;
+    private WebElement elements;
 
     @FindBy(className = "text")
-    public List<WebElement> textBox;
+    private List<WebElement> textBox;
 
     @FindBy(className = "main-header")
-    public WebElement getTitle;
+    private WebElement getTitle;
 
     @FindBy(id = "addNewRecordButton")
-    public WebElement addBtn;
+    private WebElement addBtn;
 
     @FindBy(id = "registration-form-modal")
-    public WebElement regFormTitle;
+    private WebElement regFormTitle;
 
     @FindBy(id = "firstName")
-    public WebElement firstName;
+    private WebElement firstName;
 
     @FindBy(id = "lastName")
-    public WebElement lastName;
+    private WebElement lastName;
 
     @FindBy(id = "userEmail")
-    public WebElement userEmail;
+    private WebElement userEmail;
 
     @FindBy(id = "age")
-    public WebElement age;
+    private WebElement age;
 
     @FindBy(id = "salary")
-    public WebElement salary;
+    private WebElement salary;
 
     @FindBy(id = "department")
-    public WebElement department;
+    private WebElement department;
 
     @FindBy(id = "submit")
-    public WebElement submit;
+    private WebElement submit;
 
     @FindBy(css = "div.rt-tr-group .rt-td")
-    public List<WebElement> webTableRow;
+    private List<WebElement> webTableRow;
 
     @FindBy(css = ".rt-tr .rt-td")
-    public List<WebElement> rowElement;
+    private List<WebElement> rowElement;
 
     @FindBy(className = "modal-open")
-    public List<WebElement> titleForm;
+    private List<WebElement> titleForm;
 
     @FindBy(id = "edit-record-1")
-    public WebElement editFirstGridRecord;
+    private WebElement editFirstGridRecord;
 
     @FindBy(id = "delete-record-1")
-    public WebElement deleteFirstGridRecord;
+    private WebElement deleteFirstGridRecord;
 
     @FindBy(id = "searchBox")
-    public WebElement searchInput;
+    private WebElement searchInput;
 
     @FindBy(className = "input-group-append")
-    public WebElement searchButton;
+    private WebElement searchButton;
 
     @FindBy(tagName = "select")
-    public WebElement selectRow;
+    private WebElement selectRow;
 
     @FindBy(css = "div.-next")
-    public WebElement nextBtn;
+    private WebElement nextBtn;
 
 
     public void fillForm(WebDriver driver) {
@@ -160,7 +161,7 @@ public class WebTablesPage {
         Assertions.assertEquals("Web Tables", getTitle.getText());
     }
 
-    public void editFirstRecord() {
+    public void editFirstRecord(WebDriver driver) {
         editFirstGridRecord.click();
         clearForm(driver);
         fillFormAfterClean(driver);
@@ -198,18 +199,21 @@ public class WebTablesPage {
         return arrayList;
     }
 
-    public void clickAddButton(WebDriver driver) {
-        actions = new Actions(driver);
+    public void clickAddButton(WebDriver driver, Actions actions) throws InterruptedException {
+        this.actions = actions;
         actions.moveToElement(addBtn).click().perform();
-        driver.manage().timeouts().getScriptTimeout();
+        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        sleep(3000);
+
         // todo fluky test: вот тут периодически падает
+        // todo add logs and photos to debug it
         Assertions.assertEquals("Registration Form",
                regFormTitle.getText());
     }
 
-    public void fillFormSeveralTimes(WebDriver driver) {
+    public void fillFormSeveralTimes(WebDriver driver) throws InterruptedException {
         for (int i = 0; i < 4; i ++) {
-            clickAddButton(driver);
+            clickAddButton(driver, actions);
             fillForm(driver);
         }
 

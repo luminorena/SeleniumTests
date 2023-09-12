@@ -16,7 +16,7 @@ public class WebTablesTests extends TestBase {
         });
 
         step("Нажать на кнопку 'Add' и проверить открытие окна", () -> {
-            webTablesPage.clickAddButton(driver);
+            webTablesPage.clickAddButton(driver, actions);
         });
 
         step("Заполнить форму и проверить добавление новой строки", () -> {
@@ -24,7 +24,7 @@ public class WebTablesTests extends TestBase {
         });
 
         step("Отредактировать первую строчку грида", () -> {
-            webTablesPage.editFirstRecord();
+            webTablesPage.editFirstRecord(driver);
         });
 
         step("Удалить первую строчку грида", () -> {
@@ -34,8 +34,6 @@ public class WebTablesTests extends TestBase {
         step("Найти элемент в гриде", () -> {
             webTablesPage.searchRecord();
         });
-
-        // todo надо ли все выборы dropdown проверять ?
 
         step("Заполнить форму несколько раз и проверить выбор дропдауна", () -> {
             driver.navigate().refresh();
