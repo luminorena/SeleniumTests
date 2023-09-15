@@ -1,8 +1,10 @@
 package selenium.practice.seleniumtests.Pages;
 
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -14,50 +16,131 @@ import java.util.Set;
 public class LinksPage  {
     public WebDriver driver;
     public JavascriptExecutor js;
+    public Actions actions;
 
     @FindBy(xpath = "//*[@id=\"linkWrapper\"]/h5/strong")
-    public List<WebElement> title;
+    private List<WebElement> title;
 
     @FindBy(className = "card-body")
-    public WebElement elements;
+    private WebElement elements;
 
     @FindBy(className = "text")
-    public List<WebElement> textBox;
+    private List<WebElement> textBox;
 
     @FindBy(id = "simpleLink")
-    public WebElement homeLink;
+    private WebElement homeLink;
 
     @FindBy(id = "dynamicLink")
-    public WebElement dynamicLink;
+    private WebElement dynamicLink;
 
     @FindBy(id = "created")
-    public WebElement created;
+    private WebElement created;
 
     @FindBy(id = "no-content")
-    public WebElement noContent;
+    private WebElement noContent;
 
     @FindBy(id = "moved")
-    public WebElement moved;
+    private WebElement moved;
 
     @FindBy(id = "bad-request")
-    public WebElement badRequest;
+    private WebElement badRequest;
 
     @FindBy(id = "unauthorized")
-    public WebElement unauthorized;
+    private WebElement unauthorized;
 
     @FindBy(id = "forbidden")
-    public WebElement forbidden;
+    private WebElement forbidden;
 
     @FindBy(id = "invalid-url")
-    public WebElement notFound;
+    private WebElement notFound;
 
     @FindBy(css = "p#linkResponse")
-    public WebElement linkResponse;
+    private WebElement linkResponse;
 
 
 
-    public String nodeUrl = "";
-    public String currentUrl = "";
+    private String nodeUrl = "";
+    private String currentUrl = "";
+
+
+    public void checkTabName() {
+        Assertions.assertEquals("Following links will open new tab",
+                title.get(0).getText());
+    }
+
+    public void checkApiName() {
+        Assertions.assertEquals("Following links will send an api call",
+                title.get(1).getText());
+    }
+
+    public void checkHomeLink(WebDriver driver) {
+        homeLink.click();
+        clickLink(driver);
+        Assertions.assertEquals("https://demoqa.com/",nodeUrl);
+        Assertions.assertEquals("https://demoqa.com/links", currentUrl);
+    }
+
+    public void checkHomeQoPPa(WebDriver driver){
+        dynamicLink.click();
+        clickLink(driver);
+        Assertions.assertEquals("https://demoqa.com/",nodeUrl);
+        Assertions.assertEquals("https://demoqa.com/links", currentUrl);
+    }
+
+    public void checkCreated(Actions actions) {
+        this.actions = actions;
+        created.click();
+        actions.moveToElement(linkResponse).click().perform();
+        Assertions.assertEquals("Link has responded with staus 201 and status text Created",
+                linkResponse.getText());
+    }
+
+    public void checkNoContent() {
+        noContent.click();
+        actions.moveToElement(linkResponse).click().perform();
+        Assertions.assertEquals("Link has responded with staus 204 and status text No Content",
+               linkResponse.getText());
+    }
+
+    public void checkMoved(Actions actions){
+        this.actions = actions;
+        moved.click();
+        actions.moveToElement(linkResponse).click().perform();
+        Assertions.assertEquals("Link has responded with staus 301 and status text Moved Permanently",
+                linkResponse.getText());
+    }
+
+    public void checkBadRequest(Actions actions) {
+        this.actions = actions;
+        badRequest.click();
+        actions.moveToElement(linkResponse).click().perform();
+        Assertions.assertEquals("Link has responded with staus 400 and status text Bad Request",
+                linkResponse.getText());
+    }
+
+    public void checkUnauthorized(Actions actions){
+        this.actions = actions;
+        unauthorized.click();
+        actions.moveToElement(linkResponse).click().perform();
+        Assertions.assertEquals("Link has responded with staus 401 and status text Unauthorized",
+                linkResponse.getText());
+    }
+
+    public void checkForbidden (Actions actions){
+        this.actions = actions;
+        forbidden.click();
+        actions.moveToElement(linkResponse).click().perform();
+        Assertions.assertEquals("Link has responded with staus 403 and status text Forbidden",
+               linkResponse.getText());
+    }
+
+    public void checkNotFound(Actions actions){
+        this.actions = actions;
+        notFound.click();
+        actions.moveToElement(linkResponse).click().perform();
+        Assertions.assertEquals("Link has responded with staus 404 and status text Not Found",
+                linkResponse.getText());
+    }
 
     public List<String> clickLink(WebDriver driver) {
         this.driver = driver;

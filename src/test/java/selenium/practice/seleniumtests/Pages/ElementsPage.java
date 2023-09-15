@@ -1,52 +1,84 @@
 package selenium.practice.seleniumtests.Pages;
 
+import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import selenium.practice.seleniumtests.Data.Person;
 
 import java.util.List;
 
 public class ElementsPage {
+    public WebDriver driver;
+    public JavascriptExecutor js;
+    public Actions actions;
+    Person person = new Person();
 
     @FindBy(id = "app")
-    public WebElement link;
+    private WebElement link;
 
     @FindBy(className = "card-body")
-    public WebElement elements;
+    private WebElement elements;
 
     @FindBy(className = "text")
-    public WebElement textBox;
+    private WebElement textBox;
 
     @FindBy(id = "userName")
-    public WebElement userName;
+    private WebElement userName;
 
     @FindBy(id = "userEmail")
-    public WebElement userEmail;
+    private WebElement userEmail;
 
     @FindBy(id = "currentAddress")
-    public WebElement currentAddress;
+    private WebElement currentAddress;
 
     @FindBy(id = "permanentAddress")
-    public WebElement permanentAddress;
+    private WebElement permanentAddress;
 
     @FindBy(id = "submit")
-    public WebElement submitButton;
+    private WebElement submitButton;
 
     @FindBy(id = "output")
-    public WebElement textContainer;
+    private WebElement textContainer;
 
     @FindBy(id = "name")
-    public WebElement nameResultField;
+    private WebElement nameResultField;
 
     @FindBy(id = "email")
-    public WebElement emailResultField;
+    private WebElement emailResultField;
 
     @FindBy(id = "currentAddress")
-    public List<WebElement> currentAddressResultField;
+    private List<WebElement> currentAddressResultField;
 
     @FindBy(id = "permanentAddress")
-    public List<WebElement> permanentAddressResultField;
+    private List<WebElement> permanentAddressResultField;
+
+    public void clickTextBox(JavascriptExecutor js) {
+        this.js = js;
+        link.click();
+        js.executeScript("window.scrollBy(0,350)", "");
+        elements.click();
+        textBox.click();
+    }
+
+    public void fillForm(JavascriptExecutor js) {
+        this.js = js;
+        userName.sendKeys(person.name);
+        userEmail.sendKeys(person.email);
+        currentAddress.sendKeys(person.firstAddress);
+        js.executeScript("window.scrollBy(0,350)", "");
+        permanentAddress.sendKeys(person.secondAddress);
+        submitButton.click();
+        textContainer.isDisplayed();
+
+        Assertions.assertEquals("Name:" + person.name, nameResultField.getText());
+        Assertions.assertEquals("Email:" + person.email, emailResultField.getText());
+        Assertions.assertEquals("Current Address :" + person.firstAddress, currentAddressResultField.get(1).getText());
+        Assertions.assertEquals("Permananet Address :" + person.secondAddress, permanentAddressResultField.get(1).getText());
+    }
 
 
     public ElementsPage(WebDriver driver) {

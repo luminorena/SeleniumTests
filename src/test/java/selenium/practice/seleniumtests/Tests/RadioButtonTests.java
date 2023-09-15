@@ -1,7 +1,5 @@
 package selenium.practice.seleniumtests.Tests;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import selenium.practice.seleniumtests.Pages.RadioButtonPage;

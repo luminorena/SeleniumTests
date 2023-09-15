@@ -1,6 +1,5 @@
 package selenium.practice.seleniumtests.Tests;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import selenium.practice.seleniumtests.Pages.LinksPage;
@@ -19,22 +18,15 @@ public class LinksTests extends TestBase{
         });
 
         step("Проверка названия блока", () -> {
-            Assertions.assertEquals("Following links will open new tab",
-                    linksPage.title.get(0).getText());
+           linksPage.checkTabName();
         });
 
-        step("Проверка ссылки 'Home'", () -> {
-            linksPage.homeLink.click();
-            linksPage.clickLink(driver);
-            Assertions.assertEquals("https://demoqa.com/",linksPage.nodeUrl);
-            Assertions.assertEquals("https://demoqa.com/links", linksPage.currentUrl);
+        step("Проверка открытия ссылки 'Home'", () -> {
+            linksPage.checkHomeLink(driver);
         });
 
         step("Проверка ссылки 'HomeQoPPa'", () -> {
-            linksPage.dynamicLink.click();
-            linksPage.clickLink(driver);
-            Assertions.assertEquals("https://demoqa.com/",linksPage.nodeUrl);
-            Assertions.assertEquals("https://demoqa.com/links", linksPage.currentUrl);
+            linksPage.checkHomeQoPPa(driver);
         });
 
     }
@@ -49,58 +41,36 @@ public class LinksTests extends TestBase{
         });
 
         step("Проверка названия блока", () -> {
-            Assertions.assertEquals("Following links will send an api call",
-                    linksPage.title.get(1).getText());
+           linksPage.checkApiName();
         });
 
         step("Проверка ссылки 'Created'", () -> {
-            linksPage.created.click();
-            actions.moveToElement(linksPage.linkResponse).click().perform();
-            Assertions.assertEquals("Link has responded with staus 201 and status text Created",
-                    linksPage.linkResponse.getText());
+            linksPage.checkCreated(actions);
         });
 
 
         step("Проверка ссылки 'No Content'", () -> {
-            linksPage.noContent.click();
-            actions.moveToElement(linksPage.linkResponse).click().perform();
-            Assertions.assertEquals("Link has responded with staus 204 and status text No Content",
-                    linksPage.linkResponse.getText());
+           linksPage.checkNoContent();
         });
 
         step("Проверка ссылки 'Moved'", () -> {
-            linksPage.moved.click();
-            actions.moveToElement(linksPage.linkResponse).click().perform();
-            Assertions.assertEquals("Link has responded with staus 301 and status text Moved Permanently",
-                    linksPage.linkResponse.getText());
+           linksPage.checkMoved(actions);
         });
 
         step("Проверка ссылки 'Bad request'", () -> {
-            linksPage.badRequest.click();
-            actions.moveToElement(linksPage.linkResponse).click().perform();
-            Assertions.assertEquals("Link has responded with staus 400 and status text Bad Request",
-                    linksPage.linkResponse.getText());
+           linksPage.checkBadRequest(actions);
         });
 
         step("Проверка ссылки 'Unauthorized'", () -> {
-            linksPage.unauthorized.click();
-            actions.moveToElement(linksPage.linkResponse).click().perform();
-            Assertions.assertEquals("Link has responded with staus 401 and status text Unauthorized",
-                    linksPage.linkResponse.getText());
+           linksPage.checkUnauthorized(actions);
         });
 
         step("Проверка ссылки 'Forbidden'", () -> {
-            linksPage.forbidden.click();
-            actions.moveToElement(linksPage.linkResponse).click().perform();
-            Assertions.assertEquals("Link has responded with staus 403 and status text Forbidden",
-                    linksPage.linkResponse.getText());
+           linksPage.checkForbidden(actions);
         });
 
         step("Проверка ссылки 'Not found'", () -> {
-            linksPage.notFound.click();
-            actions.moveToElement(linksPage.linkResponse).click().perform();
-            Assertions.assertEquals("Link has responded with staus 404 and status text Not Found",
-                    linksPage.linkResponse.getText());
+           linksPage.checkNotFound(actions);
         });
 
     }
