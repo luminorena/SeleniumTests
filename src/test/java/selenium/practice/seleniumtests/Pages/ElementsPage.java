@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import selenium.practice.helpers.GetElementsHelper;
 import selenium.practice.seleniumtests.Data.Person;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class ElementsPage {
     private WebElement elements;
 
     @FindBy(className = "text")
-    private WebElement textBox;
+    private List<WebElement> textBox;
 
     @FindBy(id = "userName")
     private WebElement userName;
@@ -56,16 +57,16 @@ public class ElementsPage {
     @FindBy(id = "permanentAddress")
     private List<WebElement> permanentAddressResultField;
 
+    GetElementsHelper getElementsHelper = new GetElementsHelper();
+
     public void clickTextBox(JavascriptExecutor js) {
-        this.js = js;
         link.click();
         js.executeScript("window.scrollBy(0,350)", "");
         elements.click();
-        textBox.click();
+        textBox.get(getElementsHelper.getElementsBlockItem("Text Box")).click();
     }
 
     public void fillForm(JavascriptExecutor js) {
-        this.js = js;
         userName.sendKeys(person.name);
         userEmail.sendKeys(person.email);
         currentAddress.sendKeys(person.firstAddress);
@@ -77,7 +78,7 @@ public class ElementsPage {
         Assertions.assertEquals("Name:" + person.name, nameResultField.getText());
         Assertions.assertEquals("Email:" + person.email, emailResultField.getText());
         Assertions.assertEquals("Current Address :" + person.firstAddress, currentAddressResultField.get(1).getText());
-        Assertions.assertEquals("Permananet Address :" + person.secondAddress, permanentAddressResultField.get(1).getText());
+        Assertions.assertEquals("Permanent Address :" + person.secondAddress, permanentAddressResultField.get(1).getText());
     }
 
 

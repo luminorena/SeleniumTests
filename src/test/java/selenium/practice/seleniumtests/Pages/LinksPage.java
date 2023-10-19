@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import selenium.practice.helpers.GetElementsHelper;
+import selenium.practice.helpers.LinksStatuses;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,10 +59,12 @@ public class LinksPage  {
     @FindBy(css = "p#linkResponse")
     private WebElement linkResponse;
 
-
-
     private String nodeUrl = "";
     private String currentUrl = "";
+
+    private final String baseUrl = "https://demoqa.com/";
+
+    GetElementsHelper getElementsHelper = new GetElementsHelper();
 
 
     public void checkTabName() {
@@ -75,30 +79,30 @@ public class LinksPage  {
 
     public void checkHomeLink(WebDriver driver) {
         homeLink.click();
-        clickLink(driver);
-        Assertions.assertEquals("https://demoqa.com/",nodeUrl);
-        Assertions.assertEquals("https://demoqa.com/links", currentUrl);
+        getListOfLinks(driver);
+        Assertions.assertEquals(baseUrl,nodeUrl);
+        Assertions.assertEquals(baseUrl + "links", currentUrl);
     }
 
-    public void checkHomeQoPPa(WebDriver driver){
+    public void checkHomeDynamic(WebDriver driver){
         dynamicLink.click();
-        clickLink(driver);
-        Assertions.assertEquals("https://demoqa.com/",nodeUrl);
-        Assertions.assertEquals("https://demoqa.com/links", currentUrl);
+        getListOfLinks(driver);
+        Assertions.assertEquals(baseUrl,nodeUrl);
+        Assertions.assertEquals(baseUrl + "links", currentUrl);
     }
 
     public void checkCreated(Actions actions) {
         this.actions = actions;
         created.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals("Link has responded with staus 201 and status text Created",
+        Assertions.assertEquals(LinksStatuses.STATUS_201.description,
                 linkResponse.getText());
     }
 
     public void checkNoContent() {
         noContent.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals("Link has responded with staus 204 and status text No Content",
+        Assertions.assertEquals(LinksStatuses.STATUS_204.description,
                linkResponse.getText());
     }
 
@@ -106,7 +110,7 @@ public class LinksPage  {
         this.actions = actions;
         moved.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals("Link has responded with staus 301 and status text Moved Permanently",
+        Assertions.assertEquals(LinksStatuses.STATUS_301.description,
                 linkResponse.getText());
     }
 
@@ -114,7 +118,7 @@ public class LinksPage  {
         this.actions = actions;
         badRequest.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals("Link has responded with staus 400 and status text Bad Request",
+        Assertions.assertEquals(LinksStatuses.STATUS_400.description,
                 linkResponse.getText());
     }
 
@@ -122,7 +126,7 @@ public class LinksPage  {
         this.actions = actions;
         unauthorized.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals("Link has responded with staus 401 and status text Unauthorized",
+        Assertions.assertEquals(LinksStatuses.STATUS_401.description,
                 linkResponse.getText());
     }
 
@@ -130,7 +134,7 @@ public class LinksPage  {
         this.actions = actions;
         forbidden.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals("Link has responded with staus 403 and status text Forbidden",
+        Assertions.assertEquals(LinksStatuses.STATUS_403.description,
                linkResponse.getText());
     }
 
@@ -138,17 +142,15 @@ public class LinksPage  {
         this.actions = actions;
         notFound.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals("Link has responded with staus 404 and status text Not Found",
+        Assertions.assertEquals(LinksStatuses.STATUS_404.description,
                 linkResponse.getText());
     }
 
-    public List<String> clickLink(WebDriver driver) {
+    public List<String> getListOfLinks(WebDriver driver) {
         this.driver = driver;
-      //  js = (JavascriptExecutor) driver;
-
         String mainWindowHandle = driver.getWindowHandle();
         Set<String> allWindowHandles = driver.getWindowHandles();
-        List<String> results = new ArrayList<>();
+        List<String> listOfLinks = new ArrayList<>();
 
         Iterator<String> iterator = allWindowHandles.iterator();
         while (iterator.hasNext()) {
@@ -156,26 +158,23 @@ public class LinksPage  {
             if (!mainWindowHandle.equalsIgnoreCase(ChildWindow)) {
                 driver.switchTo().window(ChildWindow);
                 nodeUrl = driver.getCurrentUrl();
-                results.add(nodeUrl);
+                listOfLinks.add(nodeUrl);
                 driver.switchTo().window(mainWindowHandle);
                 currentUrl = driver.getCurrentUrl();
-                results.add(currentUrl);
+                listOfLinks.add(currentUrl);
             }
 
         }
 
-        return results;
+        return listOfLinks;
     }
 
     public void openLinksPage(JavascriptExecutor js) {
-        this.js = js;
         js.executeScript("window.scrollBy(0,350)", "");
         elements.click();
         js.executeScript("window.scrollBy(0, 200)", "");
-        textBox.get(5).click();
+        textBox.get(getElementsHelper.getElementsBlockItem("Links")).click();
     }
-
-
 
     public LinksPage(WebDriver driver) {
         PageFactory.initElements(driver, this);

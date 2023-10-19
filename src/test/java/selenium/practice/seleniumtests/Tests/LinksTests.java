@@ -25,8 +25,8 @@ public class LinksTests extends TestBase{
             linksPage.checkHomeLink(driver);
         });
 
-        step("Проверка ссылки 'HomeQoPPa'", () -> {
-            linksPage.checkHomeQoPPa(driver);
+        step("Проверка динамической ссылки", () -> {
+            linksPage.checkHomeDynamic(driver);
         });
 
     }

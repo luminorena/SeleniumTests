@@ -1,6 +1,5 @@
 package selenium.practice.seleniumtests.Tests;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -8,6 +7,7 @@ import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 
 
@@ -21,11 +21,12 @@ public class TestBase {
     public static Logger logger;
 
 
+
     @BeforeEach
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("useAutomationExtension", false);
-      //  options.addArguments( "--headless", "--disable-gpu");
+        options.addArguments( "--headless", "--disable-gpu");
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
         driver = new ChromeDriver(options);
         actions = new Actions(driver);

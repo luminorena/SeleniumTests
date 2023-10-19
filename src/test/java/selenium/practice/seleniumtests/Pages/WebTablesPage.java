@@ -1,35 +1,36 @@
 package selenium.practice.seleniumtests.Pages;
 
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import selenium.practice.helpers.GetElementsHelper;
 import selenium.practice.seleniumtests.Data.Person;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import static java.lang.Thread.sleep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.in;
 
 
 public class WebTablesPage {
     public WebDriver driver;
     public JavascriptExecutor js;
     public Actions actions;
-    Person person = new Person();
-
-
-//    @FindBy(xpath = "//*[@id=\"linkWrapper\"]/h5/strong")
-//    private List<WebElement> title;
-
 
     @FindBy(className = "card-body")
     private WebElement elements;
@@ -71,7 +72,7 @@ public class WebTablesPage {
     private List<WebElement> webTableRow;
 
     @FindBy(css = ".rt-tr .rt-td")
-    private List<WebElement> rowElement;
+    private List<WebElement> listOfCells;
 
     @FindBy(className = "modal-open")
     private List<WebElement> titleForm;
@@ -94,9 +95,36 @@ public class WebTablesPage {
     @FindBy(css = "div.-next")
     private WebElement nextBtn;
 
+    @FindBy(className = "web-tables-wrapper")
+    private WebElement webTable;
 
-    public void fillForm(WebDriver driver) {
-        int initialCount = countRows();
+    public WebTablesPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    Person person = new Person();
+
+    private final String URL_WEBPAGE = "https://demoqa.com/webtables";
+
+    GetElementsHelper getElementsHelper = new GetElementsHelper();
+
+    @Step("Open web-page")
+    public void openWebPage() {
+        try {
+            driver.get(URL_WEBPAGE);
+            new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions
+                    .visibilityOf(webTable));
+        } catch (NoSuchElementException e) {
+            // add to allure
+            System.out.println("WebPage is not open");
+        }
+    }
+
+
+    public void fillFormAndCheck(WebDriver driver) {
+        int initialCount = countFilledCells();
         firstName.sendKeys(person.name);
         lastName.sendKeys(person.lastName);
         userEmail.sendKeys(person.email);
@@ -104,8 +132,8 @@ public class WebTablesPage {
         salary.sendKeys(person.salary);
         department.sendKeys(person.department);
         submit.click();
-        int resultCount = countRows();
-        int rowData = rowDataCount(rowElement);
+        int resultCount = countFilledCells();
+        int rowData = countCellsInOneLine(listOfCells);
         Assertions.assertEquals(initialCount + rowData, resultCount);
     }
 
@@ -128,18 +156,24 @@ public class WebTablesPage {
         submit.click();
     }
 
-    private int rowDataCount(List<WebElement> element) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        for (WebElement test : element) {
-            if (Objects.equals(test.getText(), "")) {
+
+    private int countCellsInOneLine(List<WebElement> listOfCells) {
+        /*
+        проходить в цикле до тех пор, пока не упрёмся в пустую ячейку,
+        счиатая элементы с текстом. Цикл без break
+         */
+      //  ArrayList<String> arrayList = new ArrayList<>();
+        int countElement = 0;
+        for (WebElement cell : listOfCells) {
+            if (Objects.equals(cell.getText(), "")) {
                 break;
             }
-            arrayList.add(test.getText());
+            countElement++;
         }
-        return arrayList.size();
+        return countElement;
     }
 
-    private int countRows() {
+    private int countFilledCells() {
         ArrayList<String> arrayList = new ArrayList<>();
         for (WebElement rowsElement : webTableRow) {
             if (!Objects.equals(rowsElement.getText(), "")
@@ -152,12 +186,11 @@ public class WebTablesPage {
     }
 
 
-    public void openLinksPage(JavascriptExecutor js) {
-        this.js = js;
+    public void checkOpenLinksPage(JavascriptExecutor js) {
         js.executeScript("window.scrollBy(0,350)", "");
         elements.click();
         js.executeScript("window.scrollBy(0, 200)", "");
-        textBox.get(3).click();
+        textBox.get(getElementsHelper.getElementsBlockItem("Web Tables")).click();
         Assertions.assertEquals("Web Tables", getTitle.getText());
     }
 
@@ -170,13 +203,18 @@ public class WebTablesPage {
     }
 
     public void deleteFirstRecord() {
-        int initialCount = countRows();
+        int initialCount = countFilledCells();
         deleteFirstGridRecord.click();
-        int resultCount = countRows();
-        int rowData = rowDataCount(rowElement);
-        Assertions.assertEquals(initialCount - rowData, resultCount);
+        int resultCount = countFilledCells();
+        int deletedCellsCount = countCellsInOneLine(listOfCells);
+        System.out.println("initialCount " + initialCount);
+        System.out.println("deletedCellsCount " + deletedCellsCount);
+        System.out.println("resultCount " + resultCount);
+        Assertions.assertEquals(initialCount - deletedCellsCount, resultCount);
 
     }
+
+
 
     public void searchRecord() {
         ArrayList<String> arrayList;
@@ -199,36 +237,32 @@ public class WebTablesPage {
         return arrayList;
     }
 
-    public void clickAddButton(WebDriver driver, Actions actions) throws InterruptedException {
-        this.actions = actions;
-        actions.moveToElement(addBtn).click().perform();
-        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-        sleep(3000);
-
-        // todo fluky test: вот тут периодически падает
-        // todo add logs and photos to debug it
+    public void checkButtonAdd(WebDriver driver, Actions actions) {
+        addBtn.click();
+        // crete new method from this
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions
+                .presenceOfElementLocated(By.id("registration-form-modal")));
         Assertions.assertEquals("Registration Form",
                regFormTitle.getText());
     }
 
-    public void fillFormSeveralTimes(WebDriver driver) throws InterruptedException {
-        for (int i = 0; i < 4; i ++) {
-            clickAddButton(driver, actions);
-            fillForm(driver);
+    public void fillFormSeveralTimes(WebDriver driver, int rowsToFill) {
+        for (int i = 0; i < rowsToFill - 1; i ++) {
+            checkButtonAdd(driver, actions);
+            fillFormAndCheck(driver);
         }
 
         Select dropRow = new Select(selectRow);
-        dropRow.selectByValue("5");
+        dropRow.selectByValue(String.valueOf(rowsToFill));
         nextBtn.click();
 
-        int rowData = rowDataCount(rowElement);
-        Assertions.assertEquals(5, rowData - 1);
+        int rowData = countCellsInOneLine(listOfCells);
+        Assertions.assertEquals(rowsToFill, rowData - 1);
 
     }
 
-    public WebTablesPage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
-    }
+
 
 
 }

@@ -1,5 +1,6 @@
 package selenium.practice.seleniumtests.Tests;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import selenium.practice.seleniumtests.Pages.ButtonsPage;
@@ -8,29 +9,56 @@ import static io.qameta.allure.Allure.step;
 
 public class ButtonsTests extends TestBase{
     ButtonsPage buttonsPage;
-
-    @DisplayName("Проверка блока Buttons")
+    @DisplayName("Проверка нажатия кнопки 'Double Click Me'")
     @Test
-    void buttonsTest(){
+    void doubleClickButtonTest() {
         buttonsPage = new ButtonsPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'Buttons'", () -> {
-          buttonsPage.openButtonsPage(js);
+            buttonsPage.openButtonsPage(js);
         });
-
-        step("Проверка кнопки 'Double Click Me'", () -> {
-            buttonsPage.checkDoubleClick(actions);
-
+        step("Нажать на кнопку 'Double Click Me'", () -> {
+            buttonsPage.clickDouble(actions);
         });
-
-        step("Проверка кнопки 'Right Click Me'", () -> {
-            buttonsPage.checkRightClick(actions);
-
+        step("Проверить кнопку 'Double Click Me'", () -> {
+            Assertions.assertEquals(buttonsPage.getDoubleClickValidation().getText(),
+                    "You have done a double click");
         });
-
-        step("Проверка кнопки 'Click Me'", () -> {
-            buttonsPage.checkClickMe();
-
-        });
-
     }
+
+
+    @DisplayName("Проверка нажатия кнопки 'Right Click Me'")
+    @Test
+    void rightClickButtonTest() {
+        buttonsPage = new ButtonsPage(driver);
+        step("Перейти в блок 'Elements' и выбрать 'Buttons'", () -> {
+            buttonsPage.openButtonsPage(js);
+        });
+        step("Нажать на кнопку 'Right Click Me'", () -> {
+            buttonsPage.clickRight(actions);
+        });
+        step("Проверить кнопку 'Right Click Me'", () -> {
+            Assertions.assertEquals(buttonsPage.getContextMenuValidation().getText(),
+                    "You have done a right click");
+        });
+    }
+
+
+    @DisplayName("Проверка нажатия кнопки 'Click Me'")
+    @Test
+    void clickMeButtonTest() {
+        buttonsPage = new ButtonsPage(driver);
+        step("Перейти в блок 'Elements' и выбрать 'Buttons'", () -> {
+            buttonsPage.openButtonsPage(js);
+        });
+        step("Нажать на кнопку 'Click Me'", () -> {
+            buttonsPage.clickClickMe();
+        });
+        step("Проверить кнопку 'Click Me'", () -> {
+            Assertions.assertEquals(buttonsPage.getClickValidation().getText(),
+                    "You have done a dynamic click");
+        });
+    }
+
+
+
 }

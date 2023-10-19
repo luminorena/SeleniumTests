@@ -1,5 +1,6 @@
 package selenium.practice.seleniumtests.Tests;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import selenium.practice.seleniumtests.Pages.WebTablesPage;
 
@@ -12,15 +13,15 @@ public class WebTablesTests extends TestBase {
     void webTablesTests()  {
         webTablesPage = new WebTablesPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'Links'", () -> {
-            webTablesPage.openLinksPage(js);
+            webTablesPage.checkOpenLinksPage(js);
         });
 
         step("Нажать на кнопку 'Add' и проверить открытие окна", () -> {
-            webTablesPage.clickAddButton(driver, actions);
+            webTablesPage.checkButtonAdd(driver, actions);
         });
 
         step("Заполнить форму и проверить добавление новой строки", () -> {
-           webTablesPage.fillForm(driver);
+           webTablesPage.fillFormAndCheck(driver);
         });
 
         step("Отредактировать первую строчку грида", () -> {
@@ -37,10 +38,17 @@ public class WebTablesTests extends TestBase {
 
         step("Заполнить форму несколько раз и проверить выбор дропдауна", () -> {
             driver.navigate().refresh();
-            webTablesPage.fillFormSeveralTimes(driver);
+            webTablesPage.fillFormSeveralTimes(driver, 4);
         });
 
-        // pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+    }
 
+
+    @Test
+    @DisplayName("Нажать на кнопку 'Add' и проверить открытие окна")
+    void testButtonClick() {
+        webTablesPage = new WebTablesPage(driver);
+        webTablesPage.openWebPage();
+        webTablesPage.checkButtonAdd(driver, actions);
     }
 }

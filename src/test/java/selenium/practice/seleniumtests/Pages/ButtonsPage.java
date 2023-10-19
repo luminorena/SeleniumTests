@@ -1,12 +1,13 @@
 package selenium.practice.seleniumtests.Pages;
 
-import org.junit.jupiter.api.Assertions;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import selenium.practice.helpers.GetElementsHelper;
 
 import java.util.List;
 
@@ -39,30 +40,42 @@ public class ButtonsPage {
     @FindBy(id = "dynamicClickMessage")
     private WebElement clickValidation;
 
+    public JavascriptExecutor getJs() {
+        return js;
+    }
+
+    public WebElement getContextMenuValidation() {
+        return contextMenuValidation;
+    }
+
+    public WebElement getClickValidation() {
+        return clickValidation;
+    }
+
+    public WebElement getDoubleClickValidation() {
+        return doubleClickValidation;
+    }
+
+    GetElementsHelper getElementsHelper = new GetElementsHelper();
+
     public void openButtonsPage(JavascriptExecutor js){
-        this.js = js;
-        js.executeScript("window.scrollBy(0,350)", "");
+        js.executeScript("window.scrollBy(0,350)");
         elements.click();
-        js.executeScript("window.scrollBy(0, 200)", "");
-        textBox.get(4).click();
+        js.executeScript("window.scrollBy(0, 200)");
+        textBox.get(getElementsHelper.getElementsBlockItem("Buttons")).click();
     }
 
-    public void checkDoubleClick(Actions actions){
+    public void clickDouble(Actions actions) {
         actions.doubleClick(doubleClickElement).perform();
-        Assertions.assertEquals(doubleClickValidation.getText(),
-                "You have done a double click");
     }
 
-    public void checkRightClick(Actions actions){
+
+    public void clickRight(Actions actions) {
         actions.contextClick(rightClickElement).perform();
-        Assertions.assertEquals(contextMenuValidation.getText(),
-                "You have done a right click");
     }
 
-    public void checkClickMe(){
+    public void clickClickMe(){
         clickElement.get(2).click();
-        Assertions.assertEquals(clickValidation.getText(),
-                "You have done a dynamic click");
     }
 
 

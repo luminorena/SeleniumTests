@@ -12,7 +12,7 @@ public class ElementsTests extends TestBase {
     ElementsPage elementsPage;
 
 
-    @DisplayName("Проверка блока TextBox")
+    @DisplayName("Проверка блока TextBox - нашлась бага в орфографии")
     @Test
     public void textBoxTests() {
         elementsPage = new ElementsPage(driver);
