@@ -1,12 +1,12 @@
 package selenium.practice.seleniumtests.Pages;
 
-import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import selenium.practice.helpers.GetElementsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,22 @@ public class CheckBoxPage {
     public WebDriver driver;
     public JavascriptExecutor js;
     public Actions actions;
+
+    private ArrayList<String> allActiveLabels = new ArrayList<>();
+    private ArrayList<String> searchPanel = new ArrayList<>();
+
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    public ArrayList<String> getAllActiveLabels() {
+        return allActiveLabels;
+    }
+
+    public ArrayList<String> getSearchPanel() {
+        return searchPanel;
+    }
+
     @FindBy(className = "card-body")
     private WebElement elements;
 
@@ -29,11 +45,19 @@ public class CheckBoxPage {
     @FindBy(className = "rct-icon-expand-open")
     private WebElement expandAllVisible;
 
+    public WebElement getExpandAllVisible() {
+        return expandAllVisible;
+    }
+
     @FindBy(className = "rct-icon-collapse-all")
     private WebElement collapseAll;
 
     @FindBy(className = "rct-node-collapsed")
     private WebElement collapseAllVisible;
+
+    public WebElement getCollapseAllVisible() {
+        return collapseAllVisible;
+    }
 
     @FindBy(className = "rct-collapse-btn")
     private WebElement collapseButton;
@@ -43,6 +67,10 @@ public class CheckBoxPage {
 
     @FindBy(css = ".rct-icon.rct-icon-check")
     private WebElement mainCheckBoxIsChecked;
+
+    public WebElement getMainCheckBoxIsChecked() {
+        return mainCheckBoxIsChecked;
+    }
 
     @FindBy(css = ".rct-node.rct-node-parent.rct-node-collapsed")
     private List<WebElement> nodeCheckBoxes;
@@ -59,30 +87,29 @@ public class CheckBoxPage {
     @FindBy(xpath = "//input[@type='checkbox']")
     private List<WebElement> checkboxCount;
 
-    @FindBy(className = "rct-title")
-    private List<WebElement> allActiveLabels;
+    public List<WebElement> getCheckboxCount() {
+        return checkboxCount;
+    }
 
-    @FindBy(xpath = "//span[@class='text-success']")
-    private List<WebElement> searchPanel;
+    GetElementsHelper getElementsHelper = new GetElementsHelper();
 
     public void openCheckBoxPage(JavascriptExecutor js) {
-        this.js = js;
         js.executeScript("window.scrollBy(0,350)", "");
         elements.click();
         js.executeScript("window.scrollBy(0,-350)", "");
-        textBox.get(1).click();
+        textBox.get(getElementsHelper.getElementsBlockItem("Check Box")).click();
     }
 
-    public void checkExpandAll() {
+
+
+    public void checkExpandAllCheckBox(){
         expandAll.click();
-        boolean displayed = expandAllVisible.isDisplayed();
-        Assertions.assertTrue(displayed);
     }
 
-    public void checkCollapseAll() {
+
+
+    public void checkCollapseAllCheckBox() {
         collapseAll.click();
-        boolean displayed = collapseAllVisible.isDisplayed();
-        Assertions.assertTrue(displayed);
     }
 
     public void openAllCheckBoxTree() {
@@ -91,7 +118,6 @@ public class CheckBoxPage {
 
     public void checkRootCheckBox() {
         mainCheckbox.click();
-        Assertions.assertTrue(mainCheckBoxIsChecked.isDisplayed());
     }
 
     public void checkAllCheckBoxes(WebDriver driver, Actions actions) {
@@ -112,13 +138,12 @@ public class CheckBoxPage {
         actions.moveToElement(innerNodeButtons.get(1)).click().perform();
         actions.moveToElement(innerNode).click().build().perform();
 
-        for (WebElement w : checkboxCount) {
-            Assertions.assertTrue(w.isSelected());
-        }
     }
 
+
+
     public void takeAllLabels() {
-        ArrayList<String> allActiveLabels = new ArrayList<>();
+        //ArrayList<String> allActiveLabels = new ArrayList<>();
 
         for (String labs : allActiveLabels) {
             allActiveLabels.add(labs.toLowerCase()
@@ -128,13 +153,13 @@ public class CheckBoxPage {
 
         }
 
-        ArrayList<String> searchPanel = new ArrayList<>();
+//        ArrayList<String> searchPanel = new ArrayList<>();
 
         for (String res : searchPanel) {
             searchPanel.add(res.toLowerCase());
         }
 
-        Assertions.assertEquals(allActiveLabels, searchPanel);
+       // Assertions.assertEquals(allActiveLabels, searchPanel);
 
     }
 
