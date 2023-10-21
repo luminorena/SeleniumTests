@@ -8,7 +8,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import selenium.practice.helpers.GetElementsHelper;
-import selenium.practice.helpers.LinksStatuses;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,6 +21,10 @@ public class LinksPage  {
 
     @FindBy(xpath = "//*[@id=\"linkWrapper\"]/h5/strong")
     private List<WebElement> title;
+
+    public List<WebElement> getTitle() {
+        return title;
+    }
 
     @FindBy(className = "card-body")
     private WebElement elements;
@@ -59,91 +62,96 @@ public class LinksPage  {
     @FindBy(css = "p#linkResponse")
     private WebElement linkResponse;
 
+    public WebElement getLinkResponse() {
+        return linkResponse;
+    }
+
     private String nodeUrl = "";
     private String currentUrl = "";
 
+    public String getNodeUrl() {
+        return nodeUrl;
+    }
+
+    public String getCurrentUrl() {
+        return currentUrl;
+    }
+
     private final String baseUrl = "https://demoqa.com/";
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
 
     GetElementsHelper getElementsHelper = new GetElementsHelper();
 
 
-    public void checkTabName() {
-        Assertions.assertEquals("Following links will open new tab",
-                title.get(0).getText());
-    }
+
 
     public void checkApiName() {
         Assertions.assertEquals("Following links will send an api call",
                 title.get(1).getText());
+        System.out.println("-------" + title.get(1).getText());
     }
 
-    public void checkHomeLink(WebDriver driver) {
+
+
+    public void clickHomeLink(WebDriver driver) {
         homeLink.click();
         getListOfLinks(driver);
-        Assertions.assertEquals(baseUrl,nodeUrl);
-        Assertions.assertEquals(baseUrl + "links", currentUrl);
     }
 
-    public void checkHomeDynamic(WebDriver driver){
+
+
+    public void clickHomeDynamic(WebDriver driver){
         dynamicLink.click();
         getListOfLinks(driver);
-        Assertions.assertEquals(baseUrl,nodeUrl);
-        Assertions.assertEquals(baseUrl + "links", currentUrl);
+
     }
 
-    public void checkCreated(Actions actions) {
+    public void clickCreatedApiLink(Actions actions) {
         this.actions = actions;
         created.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals(LinksStatuses.STATUS_201.description,
-                linkResponse.getText());
     }
 
-    public void checkNoContent() {
+    public void clickNoContentApiLink(Actions actions) {
+        this.actions = actions;
         noContent.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals(LinksStatuses.STATUS_204.description,
-               linkResponse.getText());
+
     }
 
-    public void checkMoved(Actions actions){
+    public void clickMovedApiLink(Actions actions){
         this.actions = actions;
         moved.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals(LinksStatuses.STATUS_301.description,
-                linkResponse.getText());
+
     }
 
-    public void checkBadRequest(Actions actions) {
+    public void clickBadRequestApiLink(Actions actions) {
         this.actions = actions;
         badRequest.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals(LinksStatuses.STATUS_400.description,
-                linkResponse.getText());
     }
 
-    public void checkUnauthorized(Actions actions){
+    public void clickUnauthorizedApiLink(Actions actions){
         this.actions = actions;
         unauthorized.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals(LinksStatuses.STATUS_401.description,
-                linkResponse.getText());
+
     }
 
-    public void checkForbidden (Actions actions){
+    public void clickForbiddenApiLink(Actions actions){
         this.actions = actions;
         forbidden.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals(LinksStatuses.STATUS_403.description,
-               linkResponse.getText());
     }
 
-    public void checkNotFound(Actions actions){
+    public void clickNotFoundApiLink(Actions actions){
         this.actions = actions;
         notFound.click();
         actions.moveToElement(linkResponse).click().perform();
-        Assertions.assertEquals(LinksStatuses.STATUS_404.description,
-                linkResponse.getText());
     }
 
     public List<String> getListOfLinks(WebDriver driver) {
