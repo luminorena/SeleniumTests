@@ -1,5 +1,6 @@
 package selenium.practice.seleniumtests.Tests;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -26,7 +27,7 @@ public class TestBase {
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("useAutomationExtension", false);
-      //  options.addArguments( "--headless", "--disable-gpu");
+        options.addArguments( "--headless", "--disable-gpu");
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
         driver = new ChromeDriver(options);
         actions = new Actions(driver);
@@ -36,12 +37,12 @@ public class TestBase {
         driver.get("https://demoqa.com/");
     }
 
-//    @AfterEach
-//    public void tearDown() {
-//        driver.close();
-//        driver.quit();
-//
-//    }
+    @AfterEach
+    public void tearDown() {
+        driver.close();
+        driver.quit();
+
+    }
 
 
 
