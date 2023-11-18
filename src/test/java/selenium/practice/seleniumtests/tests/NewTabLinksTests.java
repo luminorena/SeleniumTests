@@ -1,15 +1,15 @@
-package selenium.practice.seleniumtests.Tests;
+package selenium.practice.seleniumtests.tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import selenium.practice.seleniumtests.Pages.LinksPage;
+import selenium.practice.seleniumtests.pages.LinksPage;
+import selenium.practice.seleniumtests.TestBase;
 
 import static io.qameta.allure.Allure.step;
 
-public class NewTabLinksTests extends TestBase{
+public class NewTabLinksTests extends TestBase {
     LinksPage linksPage;
-
 
     @DisplayName("Проверка названий блока")
     @Test
@@ -19,11 +19,12 @@ public class NewTabLinksTests extends TestBase{
             linksPage.openLinksPage(js);
         });
 
+        //todo divide the assertions to two blocks
         step("Проверка названия блока", () -> {
             Assertions.assertEquals("Following links will open new tab",
-                    linksPage.getTitle().get(0).getText());
+                    linksPage.getListOfTitles().get(0).getText());
             Assertions.assertEquals("Following links will send an api call",
-                    linksPage.getTitle().get(1).getText());
+                    linksPage.getListOfTitles().get(1).getText());
         });
 
     }
@@ -39,9 +40,9 @@ public class NewTabLinksTests extends TestBase{
         step("Нажать на ссылку 'Home'", () -> {
             linksPage.clickHomeLink(driver);
         });
-
+//todo linksPage.getBaseUrl() + "links" make a constant variable
         step("Проверить, что ссылка 'Home' открывает страницу в новой вкладке", () -> {
-            Assertions.assertEquals(linksPage.getBaseUrl(),linksPage.getNodeUrl());
+            Assertions.assertEquals(linksPage.getBaseUrl(), linksPage.getNodeUrl());
             Assertions.assertEquals(linksPage.getBaseUrl() + "links",
                     linksPage.getCurrentUrl());
         });
@@ -62,7 +63,7 @@ public class NewTabLinksTests extends TestBase{
 
         step("Проверить, что ссылка динамическая ссылка открывает " +
                 "страницу в новой вкладке", () -> {
-            Assertions.assertEquals(linksPage.getBaseUrl(),linksPage.getNodeUrl());
+            Assertions.assertEquals(linksPage.getBaseUrl(), linksPage.getNodeUrl());
             Assertions.assertEquals(linksPage.getBaseUrl() + "links",
                     linksPage.getCurrentUrl());
         });

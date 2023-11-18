@@ -1,16 +1,18 @@
-package selenium.practice.seleniumtests.Tests;
+package selenium.practice.seleniumtests.tests;
 
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import selenium.practice.seleniumtests.Pages.ElementsPage;
+import selenium.practice.seleniumtests.pages.ElementsPage;
+import selenium.practice.seleniumtests.TestBase;
 
 import static io.qameta.allure.Allure.step;
 
 
-public class ElementsTests extends TestBase {
+public class TextBoxTests extends TestBase {
     ElementsPage elementsPage;
 
+    //todo разобраться со структурой тестов и страниц
 
     @DisplayName("Проверка блока TextBox - нашлась бага в орфографии")
     @Test
@@ -26,7 +28,4 @@ public class ElementsTests extends TestBase {
         });
 
     }
-
-
-
 }

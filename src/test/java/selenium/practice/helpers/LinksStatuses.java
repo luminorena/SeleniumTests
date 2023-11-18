@@ -1,7 +1,7 @@
 package selenium.practice.helpers;
 
 public enum LinksStatuses {
-    STATUS_201 ("Link has responded with staus 201 and status text Created"),
+    STATUS_201("Link has responded with staus 201 and status text Created"),
     STATUS_204("Link has responded with staus 204 and status text No Content"),
     STATUS_301("Link has responded with staus 301 and status text Moved Permanently"),
     STATUS_400("Link has responded with staus 400 and status text Bad Request"),

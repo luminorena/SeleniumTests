@@ -1,4 +1,4 @@
-package selenium.practice.seleniumtests.Data;
+package selenium.practice.seleniumtests.data;
 
 import com.github.javafaker.Faker;
 

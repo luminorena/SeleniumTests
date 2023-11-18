@@ -1,15 +1,18 @@
-package selenium.practice.seleniumtests.Tests;
+package selenium.practice.seleniumtests.tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import selenium.practice.helpers.LinksStatuses;
-import selenium.practice.seleniumtests.Pages.LinksPage;
+import selenium.practice.seleniumtests.pages.LinksPage;
+import selenium.practice.seleniumtests.TestBase;
 
 import static io.qameta.allure.Allure.step;
 
-public class ApiCallsLinksTests extends TestBase{
+public class ApiCallsLinksTests extends TestBase {
     LinksPage linksPage;
+
+    //todo make parametrized test
 
     @DisplayName("Проверка отображения результатов нажатия на ссылку 'Created'")
     @Test
@@ -23,12 +26,11 @@ public class ApiCallsLinksTests extends TestBase{
             linksPage.clickCreatedApiLink(actions);
         });
 
-        step("Проверка отображения вывода текста после нажатия на ссылку" +
-                " 'Created'", () -> {
+        step("Проверка отображения вывода текста " +
+                "после нажатия на ссылку 'Created'", () -> {
             Assertions.assertEquals(LinksStatuses.STATUS_201.description,
                     linksPage.getLinkResponse().getText());
         });
-
     }
 
     @DisplayName("Проверка отображения результатов нажатия на ссылку 'No Content'")
@@ -40,7 +42,7 @@ public class ApiCallsLinksTests extends TestBase{
         });
 
         step("Нажать на ссылку 'No Content'", () -> {
-            linksPage.clickNoContentApiLink(actions);
+            linksPage.clickNoContentApiLink();
         });
 
         step("Проверка отображения вывода текста после нажатия на ссылку" +
@@ -48,7 +50,6 @@ public class ApiCallsLinksTests extends TestBase{
             Assertions.assertEquals(LinksStatuses.STATUS_204.description,
                     linksPage.getLinkResponse().getText());
         });
-
     }
 
     @DisplayName("Проверка отображения результатов нажатия на ссылку 'Moved'")
@@ -60,7 +61,7 @@ public class ApiCallsLinksTests extends TestBase{
         });
 
         step("Нажать на ссылку 'Moved'", () -> {
-            linksPage.clickMovedApiLink(actions);
+            linksPage.clickMovedApiLink();
         });
 
         step("Проверка отображения вывода текста после нажатия на ссылку" +
@@ -68,9 +69,7 @@ public class ApiCallsLinksTests extends TestBase{
             Assertions.assertEquals(LinksStatuses.STATUS_301.description,
                     linksPage.getLinkResponse().getText());
         });
-
     }
-
 
     @DisplayName("Проверка отображения результатов нажатия на ссылку 'Bad request'")
     @Test
@@ -81,7 +80,7 @@ public class ApiCallsLinksTests extends TestBase{
         });
 
         step("Нажать на ссылку 'Bad request'", () -> {
-            linksPage.clickBadRequestApiLink(actions);
+            linksPage.clickBadRequestApiLink();
         });
 
         step("Проверка отображения вывода текста после нажатия на ссылку" +
@@ -90,7 +89,6 @@ public class ApiCallsLinksTests extends TestBase{
                     linksPage.getLinkResponse().getText());
         });
     }
-
 
     @DisplayName("Проверка отображения результатов нажатия на ссылку 'Unauthorized'")
     @Test
@@ -101,7 +99,7 @@ public class ApiCallsLinksTests extends TestBase{
         });
 
         step("Нажать на ссылку 'Unauthorized'", () -> {
-            linksPage.clickUnauthorizedApiLink(actions);
+            linksPage.clickUnauthorizedApiLink();
         });
 
         step("Проверка отображения вывода текста после нажатия на ссылку" +
@@ -120,7 +118,7 @@ public class ApiCallsLinksTests extends TestBase{
         });
 
         step("Нажать на ссылку 'Forbidden'", () -> {
-            linksPage.clickForbiddenApiLink(actions);
+            linksPage.clickForbiddenApiLink();
         });
 
         step("Проверка отображения вывода текста после нажатия на ссылку" +
@@ -139,7 +137,7 @@ public class ApiCallsLinksTests extends TestBase{
         });
 
         step("Нажать на ссылку 'Not found'", () -> {
-            linksPage.clickNotFoundApiLink(actions);
+            linksPage.clickNotFoundApiLink();
         });
 
         step("Проверка отображения вывода текста после нажатия на ссылку" +
@@ -148,5 +146,4 @@ public class ApiCallsLinksTests extends TestBase{
                     linksPage.getLinkResponse().getText());
         });
     }
-
 }

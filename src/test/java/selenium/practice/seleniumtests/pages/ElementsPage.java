@@ -1,4 +1,4 @@
-package selenium.practice.seleniumtests.Pages;
+package selenium.practice.seleniumtests.pages;
 
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.JavascriptExecutor;
@@ -8,7 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import selenium.practice.helpers.GetElementsHelper;
-import selenium.practice.seleniumtests.Data.Person;
+import selenium.practice.seleniumtests.data.Person;
 
 import java.util.List;
 
@@ -19,13 +19,14 @@ public class ElementsPage {
     Person person = new Person();
 
     @FindBy(id = "app")
-    private WebElement link;
+    private WebElement elementsButton;
 
+    //todo change page structure
     @FindBy(className = "card-body")
     private WebElement elements;
 
     @FindBy(className = "text")
-    private List<WebElement> textBox;
+    private List<WebElement> listOfMenuElements;
 
     @FindBy(id = "userName")
     private WebElement userName;
@@ -60,10 +61,12 @@ public class ElementsPage {
     GetElementsHelper getElementsHelper = new GetElementsHelper();
 
     public void clickTextBox(JavascriptExecutor js) {
-        link.click();
+        elementsButton.click();
         js.executeScript("window.scrollBy(0,350)", "");
         elements.click();
-        textBox.get(getElementsHelper.getElementsBlockItem("Text Box")).click();
+        listOfMenuElements.get(getElementsHelper
+                .getElementsBlockItem("Text Box"))
+                .click();
     }
 
     public void fillForm(JavascriptExecutor js) {

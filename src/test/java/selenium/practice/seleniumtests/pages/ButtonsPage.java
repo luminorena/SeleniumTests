@@ -1,4 +1,4 @@
-package selenium.practice.seleniumtests.Pages;
+package selenium.practice.seleniumtests.pages;
 
 
 import org.openqa.selenium.JavascriptExecutor;
@@ -58,6 +58,8 @@ public class ButtonsPage {
 
     GetElementsHelper getElementsHelper = new GetElementsHelper();
 
+    //todo вынести в BasePage через super вызывать метод
+
     public void openButtonsPage(JavascriptExecutor js){
         js.executeScript("window.scrollBy(0,350)");
         elements.click();
@@ -69,7 +71,6 @@ public class ButtonsPage {
         actions.doubleClick(doubleClickElement).perform();
     }
 
-
     public void clickRight(Actions actions) {
         actions.contextClick(rightClickElement).perform();
     }
@@ -77,8 +78,6 @@ public class ButtonsPage {
     public void clickClickMe(){
         clickElement.get(2).click();
     }
-
-
 
     public ButtonsPage(WebDriver driver) {
         PageFactory.initElements(driver, this);

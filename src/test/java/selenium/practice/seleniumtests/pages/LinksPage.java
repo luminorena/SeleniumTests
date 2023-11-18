@@ -1,6 +1,5 @@
-package selenium.practice.seleniumtests.Pages;
+package selenium.practice.seleniumtests.pages;
 
-import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import selenium.practice.helpers.GetElementsHelper;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -18,17 +16,24 @@ public class LinksPage  {
     public WebDriver driver;
     public JavascriptExecutor js;
     public Actions actions;
+    private String nodeUrl = "";
+    private String currentUrl = "";
+
+    GetElementsHelper getElementsHelper = new GetElementsHelper();
+    private final String BASE_URL = "https://demoqa.com/";
 
     @FindBy(xpath = "//*[@id=\"linkWrapper\"]/h5/strong")
-    private List<WebElement> title;
+    private List<WebElement> listOfTitles;
 
-    public List<WebElement> getTitle() {
-        return title;
+    public List<WebElement> getListOfTitles() {
+        return listOfTitles;
     }
 
+    //todo structure
     @FindBy(className = "card-body")
     private WebElement elements;
 
+    //todo structure
     @FindBy(className = "text")
     private List<WebElement> textBox;
 
@@ -66,9 +71,6 @@ public class LinksPage  {
         return linkResponse;
     }
 
-    private String nodeUrl = "";
-    private String currentUrl = "";
-
     public String getNodeUrl() {
         return nodeUrl;
     }
@@ -77,88 +79,51 @@ public class LinksPage  {
         return currentUrl;
     }
 
-    private final String baseUrl = "https://demoqa.com/";
-
     public String getBaseUrl() {
-        return baseUrl;
+        return BASE_URL;
     }
-
-    GetElementsHelper getElementsHelper = new GetElementsHelper();
-
-
-
-
-    public void checkApiName() {
-        Assertions.assertEquals("Following links will send an api call",
-                title.get(1).getText());
-        System.out.println("-------" + title.get(1).getText());
-    }
-
-
 
     public void clickHomeLink(WebDriver driver) {
         homeLink.click();
-        getListOfLinks(driver);
+        initializeUrls(driver);
     }
-
-
 
     public void clickHomeDynamic(WebDriver driver){
         dynamicLink.click();
-        getListOfLinks(driver);
-
+        initializeUrls(driver);
     }
 
     public void clickCreatedApiLink(Actions actions) {
-        this.actions = actions;
         created.click();
-        actions.moveToElement(linkResponse).click().perform();
     }
 
-    public void clickNoContentApiLink(Actions actions) {
-        this.actions = actions;
+    public void clickNoContentApiLink() {
         noContent.click();
-        actions.moveToElement(linkResponse).click().perform();
-
     }
 
-    public void clickMovedApiLink(Actions actions){
-        this.actions = actions;
+    public void clickMovedApiLink(){
         moved.click();
-        actions.moveToElement(linkResponse).click().perform();
-
     }
 
-    public void clickBadRequestApiLink(Actions actions) {
-        this.actions = actions;
+    public void clickBadRequestApiLink() {
         badRequest.click();
-        actions.moveToElement(linkResponse).click().perform();
     }
 
-    public void clickUnauthorizedApiLink(Actions actions){
-        this.actions = actions;
+    public void clickUnauthorizedApiLink(){
         unauthorized.click();
-        actions.moveToElement(linkResponse).click().perform();
-
     }
 
-    public void clickForbiddenApiLink(Actions actions){
-        this.actions = actions;
+    public void clickForbiddenApiLink(){
         forbidden.click();
-        actions.moveToElement(linkResponse).click().perform();
     }
 
-    public void clickNotFoundApiLink(Actions actions){
-        this.actions = actions;
+    public void clickNotFoundApiLink() {
         notFound.click();
-        actions.moveToElement(linkResponse).click().perform();
     }
 
-    public List<String> getListOfLinks(WebDriver driver) {
-        this.driver = driver;
+    public void initializeUrls(WebDriver driver) {
         String mainWindowHandle = driver.getWindowHandle();
         Set<String> allWindowHandles = driver.getWindowHandles();
-        List<String> listOfLinks = new ArrayList<>();
 
         Iterator<String> iterator = allWindowHandles.iterator();
         while (iterator.hasNext()) {
@@ -166,15 +131,11 @@ public class LinksPage  {
             if (!mainWindowHandle.equalsIgnoreCase(ChildWindow)) {
                 driver.switchTo().window(ChildWindow);
                 nodeUrl = driver.getCurrentUrl();
-                listOfLinks.add(nodeUrl);
+
                 driver.switchTo().window(mainWindowHandle);
                 currentUrl = driver.getCurrentUrl();
-                listOfLinks.add(currentUrl);
             }
-
         }
-
-        return listOfLinks;
     }
 
     public void openLinksPage(JavascriptExecutor js) {

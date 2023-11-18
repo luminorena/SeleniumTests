@@ -1,4 +1,4 @@
-package selenium.practice.seleniumtests.Pages;
+package selenium.practice.seleniumtests.pages;
 
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
@@ -12,26 +12,29 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import selenium.practice.helpers.GetElementsHelper;
-import selenium.practice.seleniumtests.Data.Person;
+import selenium.practice.seleniumtests.data.Person;
+import selenium.practice.seleniumtests.TestBase;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import static java.lang.Thread.sleep;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.in;
 
+public class WebTablesPage extends TestBase {
 
-public class WebTablesPage {
+    private final String URL_WEBPAGE = getBaseUrl() + "webtables";
     public WebDriver driver;
     public JavascriptExecutor js;
     public Actions actions;
-
+    Person person = new Person();
+    int rowData = 0;
+    private int deleteInitialCount = 0;
+    private int deleteResultCount = 0;
+    private int deletedCellsCount = 0;
+    private ArrayList<String> searchArrayList;
     @FindBy(className = "card-body")
     private WebElement elements;
 
@@ -40,74 +43,81 @@ public class WebTablesPage {
 
     @FindBy(className = "main-header")
     private WebElement getTitle;
-
     @FindBy(id = "addNewRecordButton")
     private WebElement addBtn;
-
     @FindBy(id = "registration-form-modal")
     private WebElement regFormTitle;
-
     @FindBy(id = "firstName")
     private WebElement firstName;
-
     @FindBy(id = "lastName")
     private WebElement lastName;
-
     @FindBy(id = "userEmail")
     private WebElement userEmail;
-
     @FindBy(id = "age")
     private WebElement age;
-
     @FindBy(id = "salary")
     private WebElement salary;
-
     @FindBy(id = "department")
     private WebElement department;
-
     @FindBy(id = "submit")
     private WebElement submit;
-
     @FindBy(css = "div.rt-tr-group .rt-td")
     private List<WebElement> webTableRow;
-
     @FindBy(css = ".rt-tr .rt-td")
     private List<WebElement> listOfCells;
-
-    @FindBy(className = "modal-open")
-    private List<WebElement> titleForm;
-
+    @FindBy(className = "main-header")
+    private WebElement mainHeader;
     @FindBy(id = "edit-record-1")
     private WebElement editFirstGridRecord;
-
     @FindBy(id = "delete-record-1")
     private WebElement deleteFirstGridRecord;
-
     @FindBy(id = "searchBox")
     private WebElement searchInput;
-
     @FindBy(className = "input-group-append")
     private WebElement searchButton;
-
     @FindBy(tagName = "select")
     private WebElement selectRow;
-
     @FindBy(css = "div.-next")
     private WebElement nextBtn;
-
     @FindBy(className = "web-tables-wrapper")
     private WebElement webTable;
 
-    public WebTablesPage(WebDriver driver) {
+    public WebTablesPage(WebDriver driver) throws IOException {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    Person person = new Person();
+    public ArrayList<String> getSearchArrayList() {
+        return searchArrayList;
+    }
 
-    private final String URL_WEBPAGE = "https://demoqa.com/webtables";
+    public int getDeleteInitialCount() {
+        return deleteInitialCount;
+    }
 
-    GetElementsHelper getElementsHelper = new GetElementsHelper();
+    public int getDeleteResultCount() {
+        return deleteResultCount;
+    }
+
+    public int getDeletedCellsCount() {
+        return deletedCellsCount;
+    }
+
+    public WebElement getGetTitle() {
+        return getTitle;
+    }
+
+    public WebElement getRegFormTitle() {
+        return regFormTitle;
+    }
+
+    public WebElement getMainHeader() {
+        return mainHeader;
+    }
+
+    public int getRowData() {
+        return rowData;
+    }
 
     @Step("Open web-page")
     public void openWebPage() {
@@ -115,7 +125,7 @@ public class WebTablesPage {
             driver.get(URL_WEBPAGE);
             new WebDriverWait(driver, Duration.ofSeconds(10))
                     .until(ExpectedConditions
-                    .visibilityOf(webTable));
+                            .visibilityOf(webTable));
         } catch (NoSuchElementException e) {
             // add to allure
             System.out.println("WebPage is not open");
@@ -138,7 +148,7 @@ public class WebTablesPage {
     }
 
 
-    public void clearForm(WebDriver driver) {
+    public void clearForm() {
         firstName.clear();
         lastName.clear();
         age.clear();
@@ -162,7 +172,7 @@ public class WebTablesPage {
         проходить в цикле до тех пор, пока не упрёмся в пустую ячейку,
         счиатая элементы с текстом. Цикл без break
          */
-      //  ArrayList<String> arrayList = new ArrayList<>();
+        //  ArrayList<String> arrayList = new ArrayList<>();
         int countElement = 0;
         for (WebElement cell : listOfCells) {
             if (Objects.equals(cell.getText(), "")) {
@@ -185,44 +195,24 @@ public class WebTablesPage {
         return arrayList.size();
     }
 
-
-    public void checkOpenLinksPage(JavascriptExecutor js) {
-        js.executeScript("window.scrollBy(0,350)", "");
-        elements.click();
-        js.executeScript("window.scrollBy(0, 200)", "");
-        textBox.get(getElementsHelper.getElementsBlockItem("Web Tables")).click();
-        Assertions.assertEquals("Web Tables", getTitle.getText());
-    }
-
     public void editFirstRecord(WebDriver driver) {
         editFirstGridRecord.click();
-        clearForm(driver);
+        clearForm();
         fillFormAfterClean(driver);
-        boolean closedModal = !titleForm.isEmpty();
-        Assertions.assertTrue(closedModal);
     }
 
     public void deleteFirstRecord() {
-        int initialCount = countFilledCells();
+        deleteInitialCount = countFilledCells();
         deleteFirstGridRecord.click();
-        int resultCount = countFilledCells();
-        int deletedCellsCount = countCellsInOneLine(listOfCells);
-        System.out.println("initialCount " + initialCount);
-        System.out.println("deletedCellsCount " + deletedCellsCount);
-        System.out.println("resultCount " + resultCount);
-        Assertions.assertEquals(initialCount - deletedCellsCount, resultCount);
-
+        deleteResultCount = countFilledCells();
+        deletedCellsCount = countCellsInOneLine(listOfCells);
     }
 
-
-
     public void searchRecord() {
-        ArrayList<String> arrayList;
         searchInput.sendKeys("Alden");
         searchButton.click();
-        arrayList = showRows();
-        System.out.println(arrayList);
-        assertThat(arrayList, hasItem("Alden"));
+        searchArrayList = showRows();
+        System.out.println(searchArrayList);
     }
 
     private ArrayList<String> showRows() {
@@ -237,32 +227,26 @@ public class WebTablesPage {
         return arrayList;
     }
 
-    public void checkButtonAdd(WebDriver driver, Actions actions) {
+    public void clickButtonAdd(WebDriver driver, Actions actions) {
         addBtn.click();
         // crete new method from this
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions
-                .presenceOfElementLocated(By.id("registration-form-modal")));
-        Assertions.assertEquals("Registration Form",
-               regFormTitle.getText());
+                        .presenceOfElementLocated(By.id("registration-form-modal")));
     }
 
     public void fillFormSeveralTimes(WebDriver driver, int rowsToFill) {
-        for (int i = 0; i < rowsToFill - 1; i ++) {
-            checkButtonAdd(driver, actions);
+        for (int i = 0; i < rowsToFill - 1; i++) {
+            clickButtonAdd(driver, actions);
             fillFormAndCheck(driver);
         }
-
+        // выбор мультиселекта
         Select dropRow = new Select(selectRow);
         dropRow.selectByValue(String.valueOf(rowsToFill));
         nextBtn.click();
-
-        int rowData = countCellsInOneLine(listOfCells);
-        Assertions.assertEquals(rowsToFill, rowData - 1);
+        rowData = countCellsInOneLine(listOfCells);
 
     }
-
-
 
 
 }
