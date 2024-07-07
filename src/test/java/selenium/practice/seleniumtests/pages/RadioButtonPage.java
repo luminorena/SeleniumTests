@@ -58,18 +58,8 @@ public class RadioButtonPage extends TestBase {
         textBox.get(getElementsHelper.getElementsBlockItem("Radio Button")).click();
     }
 
-    @Step("Open web-page")
-    public void openWebPage(WebDriver driver) {
-        try {
-            System.out.println(URL_WEBPAGE);
-            driver.get(URL_WEBPAGE);
-            new WebDriverWait(driver, Duration.ofSeconds(10))
-                    .until(ExpectedConditions
-                            .visibilityOf(doYouLikeTheSiteString));
-        } catch (NoSuchElementException e) {
-            // add to allure
-            System.out.println("WebPage is not open");
-        }
+    public void openRadioButtonsPage(WebDriver driver){
+        super.openWebPage(driver, URL_WEBPAGE, doYouLikeTheSiteString);
     }
 
     public void clickYesRadioButton(WebDriver driver, Actions actions) {

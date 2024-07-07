@@ -19,8 +19,8 @@ public class RadioButtonTests extends TestBase {
     public void radioButtonYesTest() throws IOException {
         radioButtonPage = new RadioButtonPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'RadioButton'", () -> {
-            radioButtonPage.openWebPage(driver);
-          //  driver.navigate().refresh();
+            radioButtonPage.openRadioButtonsPage(driver);
+            driver.navigate().refresh();
         });
 
         step("Нажать на радиокнопку 'Yes'", () -> {
@@ -40,7 +40,7 @@ public class RadioButtonTests extends TestBase {
     public void radioButtonImpressiveTest() throws IOException {
         radioButtonPage = new RadioButtonPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'RadioButton'", () -> {
-            radioButtonPage.openRadioButtonPage(js);
+            radioButtonPage.openRadioButtonsPage(driver);
         });
 
         step("Нажать на радиокнопку 'Impressive'", () -> {
@@ -58,7 +58,7 @@ public class RadioButtonTests extends TestBase {
     public void radioButtonNoTest() throws IOException {
         radioButtonPage = new RadioButtonPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'RadioButton'", () -> {
-            radioButtonPage.openRadioButtonPage(js);
+            radioButtonPage.openRadioButtonsPage(driver);
         });
 
         step("Нажать на радиокнопку 'No'", () -> {

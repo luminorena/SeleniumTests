@@ -8,14 +8,19 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import selenium.practice.helpers.GetElementsHelper;
+import selenium.practice.seleniumtests.TestBase;
 
+import java.io.IOException;
 import java.util.List;
 
-public class ButtonsPage {
+public class ButtonsPage extends TestBase {
 
     public JavascriptExecutor js;
     public WebDriver driver;
     public Actions actions;
+
+    private final String URL_WEBPAGE = getBaseUrl() + "buttons";
+
     @FindBy(className = "card-body")
     private WebElement elements;
 
@@ -40,8 +45,13 @@ public class ButtonsPage {
     @FindBy(id = "dynamicClickMessage")
     private WebElement clickValidation;
 
-    public JavascriptExecutor getJs() {
-        return js;
+
+    public ButtonsPage(WebDriver driver) throws IOException {
+        PageFactory.initElements(driver, this);
+    }
+
+    public void openButtonsPage(WebDriver driver){
+        super.openWebPage(driver, URL_WEBPAGE, doubleClickElement);
     }
 
     public WebElement getContextMenuValidation() {
@@ -55,18 +65,6 @@ public class ButtonsPage {
     public WebElement getDoubleClickValidation() {
         return doubleClickValidation;
     }
-
-    GetElementsHelper getElementsHelper = new GetElementsHelper();
-
-    //todo вынести в BasePage через super вызывать метод
-
-    public void openButtonsPage(JavascriptExecutor js){
-        js.executeScript("window.scrollBy(0,350)");
-        elements.click();
-        js.executeScript("window.scrollBy(0, 200)");
-        textBox.get(getElementsHelper.getElementsBlockItem("Buttons")).click();
-    }
-
     public void clickDouble(Actions actions) {
         actions.doubleClick(doubleClickElement).perform();
     }
@@ -79,7 +77,7 @@ public class ButtonsPage {
         clickElement.get(2).click();
     }
 
-    public ButtonsPage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
-    }
+
 }
+
+

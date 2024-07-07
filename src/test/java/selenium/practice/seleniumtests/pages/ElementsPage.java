@@ -8,15 +8,18 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import selenium.practice.helpers.GetElementsHelper;
+import selenium.practice.seleniumtests.TestBase;
 import selenium.practice.seleniumtests.data.Person;
 
+import java.io.IOException;
 import java.util.List;
 
-public class ElementsPage {
+public class ElementsPage extends TestBase {
     public WebDriver driver;
-    public JavascriptExecutor js;
     public Actions actions;
     Person person = new Person();
+
+    private final String URL_WEBPAGE = getBaseUrl() + "text-box";
 
     @FindBy(id = "app")
     private WebElement elementsButton;
@@ -49,6 +52,7 @@ public class ElementsPage {
     @FindBy(id = "name")
     private WebElement nameResultField;
 
+
     @FindBy(id = "email")
     private WebElement emailResultField;
 
@@ -60,13 +64,8 @@ public class ElementsPage {
 
     GetElementsHelper getElementsHelper = new GetElementsHelper();
 
-    public void clickTextBox(JavascriptExecutor js) {
-        elementsButton.click();
-        js.executeScript("window.scrollBy(0,350)", "");
-        elements.click();
-        listOfMenuElements.get(getElementsHelper
-                .getElementsBlockItem("Text Box"))
-                .click();
+    public void openTextBoxPage(WebDriver driver){
+        super.openWebPage(driver, URL_WEBPAGE, userName);
     }
 
     public void fillForm(JavascriptExecutor js) {
@@ -85,7 +84,7 @@ public class ElementsPage {
     }
 
 
-    public ElementsPage(WebDriver driver) {
+    public ElementsPage(WebDriver driver) throws IOException {
         PageFactory.initElements(driver, this);
     }
 

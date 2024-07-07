@@ -19,7 +19,7 @@ public class CheckBoxTests extends TestBase {
     void expandAllCheckBoxTest() throws IOException {
         checkBoxPage = new CheckBoxPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'CheckBox'", () -> {
-            checkBoxPage.openWebPage(driver);
+            checkBoxPage.openCheckBoxPage(driver);
             driver.navigate().refresh();
         });
 
@@ -38,7 +38,7 @@ public class CheckBoxTests extends TestBase {
     void collapseAllCheckBoxTest() throws IOException {
         checkBoxPage = new CheckBoxPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'CheckBox'", () -> {
-            checkBoxPage.openWebPage(driver);
+            checkBoxPage.openCheckBoxPage(driver);
             driver.navigate().refresh();
         });
 
@@ -56,7 +56,7 @@ public class CheckBoxTests extends TestBase {
     void allCheckBoxesAreCheckedTest() throws IOException {
         checkBoxPage = new CheckBoxPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'CheckBox'", () -> {
-            checkBoxPage.openWebPage(driver);
+            checkBoxPage.openCheckBoxPage(driver);
             driver.navigate().refresh();
         });
 
@@ -78,7 +78,7 @@ public class CheckBoxTests extends TestBase {
     void checkAllCheckBoxesState() throws IOException {
         checkBoxPage = new CheckBoxPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'CheckBox'", () -> {
-            checkBoxPage.openWebPage(driver);
+            checkBoxPage.openCheckBoxPage(driver);
             driver.navigate().refresh();
         });
 
@@ -106,7 +106,7 @@ public class CheckBoxTests extends TestBase {
     void checkLabelsView() throws IOException {
         checkBoxPage = new CheckBoxPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'CheckBox'", () -> {
-            checkBoxPage.openWebPage(driver);
+            checkBoxPage.openCheckBoxPage(driver);
             driver.navigate().refresh();
         });
 

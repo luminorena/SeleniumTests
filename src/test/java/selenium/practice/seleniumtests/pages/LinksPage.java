@@ -6,21 +6,24 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import selenium.practice.helpers.GetElementsHelper;
+import selenium.practice.seleniumtests.TestBase;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class LinksPage  {
+public class LinksPage extends TestBase {
     public WebDriver driver;
-    public JavascriptExecutor js;
     public Actions actions;
     private String nodeUrl = "";
     private String currentUrl = "";
 
-    GetElementsHelper getElementsHelper = new GetElementsHelper();
-    private final String BASE_URL = "https://demoqa.com/";
+    private final String URL_WEBPAGE = getBaseUrl() + "links";
+
+    public String getUrlWebPage() {
+        return URL_WEBPAGE;
+    }
 
     @FindBy(xpath = "//*[@id=\"linkWrapper\"]/h5/strong")
     private List<WebElement> listOfTitles;
@@ -79,9 +82,6 @@ public class LinksPage  {
         return currentUrl;
     }
 
-    public String getBaseUrl() {
-        return BASE_URL;
-    }
 
     public void clickHomeLink(WebDriver driver) {
         homeLink.click();
@@ -138,14 +138,12 @@ public class LinksPage  {
         }
     }
 
-    public void openLinksPage(JavascriptExecutor js) {
-        js.executeScript("window.scrollBy(0,350)", "");
-        elements.click();
-        js.executeScript("window.scrollBy(0, 200)", "");
-        textBox.get(getElementsHelper.getElementsBlockItem("Links")).click();
+
+    public void openLinksPage(WebDriver driver){
+        super.openWebPage(driver, URL_WEBPAGE, homeLink);
     }
 
-    public LinksPage(WebDriver driver) {
+    public LinksPage(WebDriver driver) throws IOException {
         PageFactory.initElements(driver, this);
     }
 }

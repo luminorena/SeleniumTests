@@ -3,8 +3,13 @@ package selenium.practice.seleniumtests.tests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.practice.seleniumtests.pages.ButtonsPage;
 import selenium.practice.seleniumtests.TestBase;
+
+import java.io.IOException;
+import java.time.Duration;
 
 import static io.qameta.allure.Allure.step;
 
@@ -12,10 +17,10 @@ public class ButtonsTests extends TestBase {
     ButtonsPage buttonsPage;
     @DisplayName("Проверка нажатия кнопки 'Double Click Me'")
     @Test
-    void doubleClickButtonTest() {
+    void doubleClickButtonTest() throws IOException {
         buttonsPage = new ButtonsPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'Buttons'", () -> {
-            buttonsPage.openButtonsPage(js);
+            buttonsPage.openButtonsPage(driver);
         });
 
         step("Нажать на кнопку 'Double Click Me'", () -> {
@@ -30,10 +35,10 @@ public class ButtonsTests extends TestBase {
 
     @DisplayName("Проверка нажатия кнопки 'Right Click Me'")
     @Test
-    void rightClickButtonTest() {
+    void rightClickButtonTest() throws IOException {
         buttonsPage = new ButtonsPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'Buttons'", () -> {
-            buttonsPage.openButtonsPage(js);
+            buttonsPage.openButtonsPage(driver);
         });
 
         step("Нажать на кнопку 'Right Click Me'", () -> {
@@ -41,17 +46,21 @@ public class ButtonsTests extends TestBase {
         });
 
         step("Проверить кнопку 'Right Click Me'", () -> {
+            new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions
+                                    .visibilityOf(buttonsPage.getContextMenuValidation()));
             Assertions.assertEquals(buttonsPage.getContextMenuValidation().getText(),
                     "You have done a right click");
+
         });
     }
 
     @DisplayName("Проверка нажатия кнопки 'Click Me'")
     @Test
-    void clickMeButtonTest() {
+    void clickMeButtonTest() throws IOException {
         buttonsPage = new ButtonsPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'Buttons'", () -> {
-            buttonsPage.openButtonsPage(js);
+            buttonsPage.openButtonsPage(driver);
         });
 
         step("Нажать на кнопку 'Click Me'", () -> {

@@ -87,15 +87,8 @@ public class CheckBoxPage extends TestBase {
         return checkboxList;
     }
 
-    @Step("Open web-page")
-    public void openWebPage(WebDriver driver) {
-        try {
-            System.out.println(URL_WEBPAGE);
-            driver.get(URL_WEBPAGE);
-        } catch (NoSuchElementException e) {
-            // add to allure
-            System.out.println("WebPage is not open");
-        }
+    public void openCheckBoxPage(WebDriver driver){
+        super.openWebPage(driver, URL_WEBPAGE, expandAll);
     }
 
     public void clickExpandAllCheckBox() {

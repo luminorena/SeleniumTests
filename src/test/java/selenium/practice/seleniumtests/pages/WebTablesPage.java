@@ -26,9 +26,7 @@ import java.util.Objects;
 public class WebTablesPage extends TestBase {
 
     private final String URL_WEBPAGE = getBaseUrl() + "webtables";
-    public WebDriver driver;
-    public JavascriptExecutor js;
-    public Actions actions;
+    private WebDriver driver;
     Person person = new Person();
     int rowData = 0;
     private int deleteInitialCount = 0;

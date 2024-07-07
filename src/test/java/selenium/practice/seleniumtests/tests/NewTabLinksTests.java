@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import selenium.practice.seleniumtests.pages.LinksPage;
 import selenium.practice.seleniumtests.TestBase;
 
+import java.io.IOException;
+
 import static io.qameta.allure.Allure.step;
 
 public class NewTabLinksTests extends TestBase {
@@ -13,16 +15,18 @@ public class NewTabLinksTests extends TestBase {
 
     @DisplayName("Проверка названий блока")
     @Test
-    void blockNameTests(){
+    void blockNameTests() throws IOException {
         linksPage = new LinksPage(driver);
-        step("Перейти в блок 'Elements' и выбрать 'Links'", () -> {
-            linksPage.openLinksPage(js);
+        step("Перейти на страницу 'Links'", () -> {
+            linksPage.openLinksPage(driver);
         });
 
-        //todo divide the assertions to two blocks
-        step("Проверка названия блока", () -> {
+        step("Проверка открытия блока для нового таба", () -> {
             Assertions.assertEquals("Following links will open new tab",
                     linksPage.getListOfTitles().get(0).getText());
+        });
+
+        step("Проверка названия блока для api вызова", () -> {
             Assertions.assertEquals("Following links will send an api call",
                     linksPage.getListOfTitles().get(1).getText());
         });
@@ -31,30 +35,32 @@ public class NewTabLinksTests extends TestBase {
 
     @DisplayName("Проверка ссылки 'Home'")
     @Test
-    void homeLinkTests(){
+    void homeLinkTests() throws IOException {
         linksPage = new LinksPage(driver);
-        step("Перейти в блок 'Elements' и выбрать 'Links'", () -> {
-            linksPage.openLinksPage(js);
+        step("Перейти на страницу 'Links'", () -> {
+            linksPage.openLinksPage(driver);
         });
 
         step("Нажать на ссылку 'Home'", () -> {
             linksPage.clickHomeLink(driver);
         });
-//todo linksPage.getBaseUrl() + "links" make a constant variable
+
         step("Проверить, что ссылка 'Home' открывает страницу в новой вкладке", () -> {
             Assertions.assertEquals(linksPage.getBaseUrl(), linksPage.getNodeUrl());
-            Assertions.assertEquals(linksPage.getBaseUrl() + "links",
-                    linksPage.getCurrentUrl());
+        });
+
+        step("", () -> {
+            Assertions.assertEquals(linksPage.getUrlWebPage(), linksPage.getCurrentUrl());
         });
 
     }
 
     @DisplayName("Проверка динамической ссылки")
     @Test
-    void dynamicLinkTests() {
+    void dynamicLinkTests() throws IOException {
         linksPage = new LinksPage(driver);
-        step("Перейти в блок 'Elements' и выбрать 'Links'", () -> {
-            linksPage.openLinksPage(js);
+        step("Перейти на страницу 'Links'", () -> {
+            linksPage.openLinksPage(driver);
         });
 
         step("Нажать на динамическую ссылку", () -> {
@@ -64,10 +70,12 @@ public class NewTabLinksTests extends TestBase {
         step("Проверить, что ссылка динамическая ссылка открывает " +
                 "страницу в новой вкладке", () -> {
             Assertions.assertEquals(linksPage.getBaseUrl(), linksPage.getNodeUrl());
-            Assertions.assertEquals(linksPage.getBaseUrl() + "links",
-                    linksPage.getCurrentUrl());
+
         });
 
+        step("", () -> {
+            Assertions.assertEquals(linksPage.getUrlWebPage(), linksPage.getCurrentUrl());
+        });
     }
 
 }
