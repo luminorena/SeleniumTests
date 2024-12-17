@@ -1,20 +1,44 @@
+//noinspection GroovyAssignabilityCheck
 plugins {
-    id 'java'
-    id 'io.qameta.allure' version '2.9.3'
+    id 'java-library'
+    id "io.qameta.allure" version "2.9.3"
+    id "org.gradle.test-retry" version "1.5.0"
 }
-
-group 'selenium.practice'
-version '1.0'
 
 repositories {
     mavenCentral()
 }
 
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+group 'practice.selenium'
+version '1.0'
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+compileJava {
+    options.encoding='UTF-8'
+}
+
+compileTestJava {
+    options.encoding='UTF-8'
+}
+
+
 ext {
     allureVersion = '2.15.0'
-    junitVersion = '5.10.0'
-    seleniumVersion = '4.11.0'
-    selenideVersion = '6.17.2'
+    junitVersion = '5.10.3'
+    seleniumVersion = '4.22.0'
     assertJVersion = '3.24.2'
     hamcrestVersion = '2.2'
     slf4jVersion = '2.0.5'
@@ -22,35 +46,55 @@ ext {
     junitParams = '5.9.2'
 }
 
-sourceCompatibility = '17'
-targetCompatibility = '17'
+allure {
+    report {
+        version.set("${allureVersion}")
+    }
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set("${allureVersion}")
+            }
+        }
+    }
+}
 
+
+dependencies {
+    testImplementation(
+            implementation("org.seleniumhq.selenium:selenium-java:${seleniumVersion}"),
+            testImplementation("org.assertj:assertj-core:${assertJVersion}"),
+            testImplementation("org.hamcrest:hamcrest:${hamcrestVersion}"),
+            testImplementation("org.slf4j:slf4j-simple:${slf4jVersion}"),
+            testImplementation("org.junit.jupiter:junit-jupiter-params:${junitVersion}"),
+            testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}"),
+            testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}"),
+            testImplementation("com.github.javafaker:javafaker:${javaFakerVersion}")
+
+    )
+}
+if (System.getProperty("threads") != null) {
+    systemProperties += [
+            'junit.jupiter.execution.parallel.enabled'                 : true,
+            'junit.jupiter.execution.parallel.mode.default'            : 'concurrent',
+            'junit.jupiter.execution.parallel.mode.classes.default'    : 'concurrent',
+            'junit.jupiter.execution.parallel.config.strategy' : 'fixed',
+            'junit.jupiter.execution.parallel.config.fixed.parallelism': System.getProperty("threads").toInteger()
+    ]
+}
+
+test {
+    systemProperties(System.getProperties())
+    useJUnitPlatform()
+    retry {
+        maxRetries = 2
+        maxFailures = 30
+        // считать ли тест упавшим, если он зеленый при перезапуске
+        failOnPassedAfterRetry = false
+    }
+}
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-dependencies {
-    implementation("org.seleniumhq.selenium:selenium-java:${seleniumVersion}")
-    implementation ("com.codeborne:selenide:${selenideVersion}")
-    testImplementation("org.assertj:assertj-core:${assertJVersion}")
-    testImplementation("org.hamcrest:hamcrest:${hamcrestVersion}")
-    testImplementation("org.slf4j:slf4j-simple:${slf4jVersion}")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:${junitVersion}")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
-    testImplementation("com.github.javafaker:javafaker:${javaFakerVersion}")
-
-
-
-}
-
-test {
-    useJUnitPlatform()
-}
-allure {
-    version = "${allureVersion}"
-
-    useJUnit5 {
-        version = "${allureVersion}"
-    }
-}

@@ -24,7 +24,6 @@ public class ElementsPage extends TestBase {
     @FindBy(id = "app")
     private WebElement elementsButton;
 
-    //todo change page structure
     @FindBy(className = "card-body")
     private WebElement elements;
 
@@ -76,6 +75,9 @@ public class ElementsPage extends TestBase {
         permanentAddress.sendKeys(person.secondAddress);
         submitButton.click();
         textContainer.isDisplayed();
+
+        // todo move to test but not here
+        // todo create hashmap and test that they are equal
 
         Assertions.assertEquals("Name:" + person.name, nameResultField.getText());
         Assertions.assertEquals("Email:" + person.email, emailResultField.getText());

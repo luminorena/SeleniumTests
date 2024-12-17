@@ -81,7 +81,6 @@ public class WebTablesTests extends TestBase {
         step("Удалить первую строчку грида", () -> {
             driver.navigate().refresh();
             webTablesPage.deleteFirstRecord();
-            System.out.println("111111111111111111111111111" + webTablesPage.getBaseUrl());
         });
 
         step("Проверить, что элемент отсутствует в гриде после удаления", () -> {
@@ -104,7 +103,7 @@ public class WebTablesTests extends TestBase {
         });
 
         step("Найти элемент в гриде", () -> {
-            webTablesPage.searchRecord();
+            webTablesPage.searchRecord();  // todo move to separate assert
             assertThat(webTablesPage.getSearchArrayList(), hasItem("Alden"));
         });
     }
@@ -121,7 +120,7 @@ public class WebTablesTests extends TestBase {
         });
 
         step("Заполнить форму несколько раз и проверить переход пейджинга", () -> {
-            webTablesPage.fillFormSeveralTimes(driver, 5);
+            webTablesPage.fillFormSeveralTimes(driver, 5);  // todo move to separate assert
             Assertions.assertEquals(5, webTablesPage.getRowData() - 1);
         });
     }

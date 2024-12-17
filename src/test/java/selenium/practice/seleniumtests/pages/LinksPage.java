@@ -105,19 +105,31 @@ public class LinksPage extends TestBase {
         moved.click();
     }
 
-    public void clickBadRequestApiLink() {
+    public void clickBadRequestApiLink(WebDriver driver) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        driver.manage().window().maximize();
+        js.executeScript("window.scrollBy(0,1000)");
         badRequest.click();
     }
 
-    public void clickUnauthorizedApiLink(){
+    public void clickUnauthorizedApiLink(WebDriver driver){
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        driver.manage().window().maximize();
+        js.executeScript("window.scrollBy(0,1000)");
         unauthorized.click();
     }
 
-    public void clickForbiddenApiLink(){
+    public void clickForbiddenApiLink(WebDriver driver){
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        driver.manage().window().maximize();
+        js.executeScript("window.scrollBy(0,1000)");
         forbidden.click();
     }
 
-    public void clickNotFoundApiLink() {
+    public void clickNotFoundApiLink(WebDriver driver) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        driver.manage().window().maximize();
+        js.executeScript("window.scrollBy(0,1000)");
         notFound.click();
     }
 

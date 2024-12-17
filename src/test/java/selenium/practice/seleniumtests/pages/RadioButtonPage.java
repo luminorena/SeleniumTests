@@ -17,12 +17,14 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
-
+// todo look at actions instead of JavaScriptExecutor
 
 public class RadioButtonPage extends TestBase {
     private final String URL_WEBPAGE = getBaseUrl() + "radio-button";
     public WebDriver driver;
    // public JavascriptExecutor js;
+
+    private Actions actions;
 
     @FindBy(className = "mb-3")
     private WebElement doYouLikeTheSiteString;
@@ -33,7 +35,7 @@ public class RadioButtonPage extends TestBase {
     @FindBy(className = "text")
     private List<WebElement> textBox;
 
-    @FindBy(xpath = "//span[@class='text-success']")
+    @FindBy(className = "text-success")
     private WebElement successResult;
 
     public WebElement getSuccessResult() {
@@ -51,6 +53,7 @@ public class RadioButtonPage extends TestBase {
 
     GetElementsHelper getElementsHelper = new GetElementsHelper();
 
+    // todo change into actions and move to testutils
     public void openRadioButtonPage (JavascriptExecutor js) {
         js.executeScript("window.scrollBy(0,350)");
         elements.click();
@@ -63,15 +66,10 @@ public class RadioButtonPage extends TestBase {
     }
 
     public void clickYesRadioButton(WebDriver driver, Actions actions) {
-        WebElement yesRadioButton = (new WebDriverWait(driver, Duration.ofSeconds(2)))
+        WebElement yesRadioButton = (new WebDriverWait(driver, Duration.ofSeconds(10)))
                 .until(ExpectedConditions
                 .presenceOfElementLocated(By.id("yesRadio")));
-
-        //todo check different browsers
-
-       for (int i = 0; i < 3 || yesRadioButton.isSelected(); i++) {
-           actions.moveToElement(yesRadioButton).click().perform();
-       }
+        actions.moveToElement(yesRadioButton).click().perform();
     }
 
     public void clickImpressiveButton(WebDriver driver, Actions actions) {
@@ -85,7 +83,7 @@ public class RadioButtonPage extends TestBase {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
         actions.moveToElement(noRadio).click().perform();
         enabled = noRadio.isEnabled();
-        //todo check disabled properties
+
     }
 
 

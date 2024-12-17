@@ -15,6 +15,8 @@ import static io.qameta.allure.Allure.step;
 
 public class ButtonsTests extends TestBase {
     ButtonsPage buttonsPage;
+
+    // todo add try/catch to IOException
     @DisplayName("Проверка нажатия кнопки 'Double Click Me'")
     @Test
     void doubleClickButtonTest() throws IOException {

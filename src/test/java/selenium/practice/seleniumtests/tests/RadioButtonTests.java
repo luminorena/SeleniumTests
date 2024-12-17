@@ -20,7 +20,6 @@ public class RadioButtonTests extends TestBase {
         radioButtonPage = new RadioButtonPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'RadioButton'", () -> {
             radioButtonPage.openRadioButtonsPage(driver);
-            driver.navigate().refresh();
         });
 
         step("Нажать на радиокнопку 'Yes'", () -> {
@@ -31,6 +30,7 @@ public class RadioButtonTests extends TestBase {
             Assertions.assertEquals("Yes",
                     radioButtonPage.getSuccessResult().getText());
         });
+        // todo check state of the opposite button - it changes its gray-out
 
     }
 

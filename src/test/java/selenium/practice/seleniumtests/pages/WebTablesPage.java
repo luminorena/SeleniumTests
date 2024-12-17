@@ -39,7 +39,7 @@ public class WebTablesPage extends TestBase {
     @FindBy(className = "text")
     private List<WebElement> textBox;
 
-    @FindBy(className = "main-header")
+    @FindBy(className = "text-center")
     private WebElement getTitle;
     @FindBy(id = "addNewRecordButton")
     private WebElement addBtn;
@@ -63,7 +63,7 @@ public class WebTablesPage extends TestBase {
     private List<WebElement> webTableRow;
     @FindBy(css = ".rt-tr .rt-td")
     private List<WebElement> listOfCells;
-    @FindBy(className = "main-header")
+    @FindBy(className = "text-center")
     private WebElement mainHeader;
     @FindBy(id = "edit-record-1")
     private WebElement editFirstGridRecord;

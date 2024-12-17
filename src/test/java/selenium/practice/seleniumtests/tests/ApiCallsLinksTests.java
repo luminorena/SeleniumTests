@@ -18,8 +18,6 @@ import static io.qameta.allure.Allure.step;
 public class ApiCallsLinksTests extends TestBase {
     LinksPage linksPage;
 
-    // todo по айди параметризацию делать, айди = строка и подставляем в WebElement
-
     @DisplayName("param")
     @EnumSource(ApiLinksEnum.class)
     @ParameterizedTest(name = "param")
@@ -34,6 +32,7 @@ public class ApiCallsLinksTests extends TestBase {
 
     }
 
+    // todo LinksPage wrap with try/catch
     @DisplayName("Проверка отображения результатов нажатия на ссылку 'Created'")
     @Test
     void createdLinkWebViewTests() throws IOException {
@@ -46,7 +45,8 @@ public class ApiCallsLinksTests extends TestBase {
         });
         step("Проверка отображения вывода текста " +
                 "после нажатия на ссылку 'Created'", () -> {
-            Assertions.assertEquals(LinksStatuses.STATUS_201.description, linksPage.getLinkResponse().getText());
+            Assertions.assertEquals(LinksStatuses.STATUS_201.description,
+                    linksPage.getLinkResponse().getText());
         });
     }
     @DisplayName("Проверка отображения результатов нажатия на ссылку 'No Content'")
@@ -93,7 +93,7 @@ public class ApiCallsLinksTests extends TestBase {
         });
 
         step("Нажать на ссылку 'Bad request'", () -> {
-            linksPage.clickBadRequestApiLink();
+            linksPage.clickBadRequestApiLink(driver);
         });
 
         step("Проверка отображения вывода текста после нажатия на ссылку" +
@@ -112,7 +112,7 @@ public class ApiCallsLinksTests extends TestBase {
         });
 
         step("Нажать на ссылку 'Unauthorized'", () -> {
-            linksPage.clickUnauthorizedApiLink();
+            linksPage.clickUnauthorizedApiLink(driver);
         });
 
         step("Проверка отображения вывода текста после нажатия на ссылку" +
@@ -131,7 +131,7 @@ public class ApiCallsLinksTests extends TestBase {
         });
 
         step("Нажать на ссылку 'Forbidden'", () -> {
-            linksPage.clickForbiddenApiLink();
+            linksPage.clickForbiddenApiLink(driver);
         });
 
         step("Проверка отображения вывода текста после нажатия на ссылку" +
@@ -150,7 +150,7 @@ public class ApiCallsLinksTests extends TestBase {
         });
 
         step("Нажать на ссылку 'Not found'", () -> {
-            linksPage.clickNotFoundApiLink();
+            linksPage.clickNotFoundApiLink(driver);
         });
 
         step("Проверка отображения вывода текста после нажатия на ссылку" +

@@ -49,6 +49,8 @@ public class NewTabLinksTests extends TestBase {
             Assertions.assertEquals(linksPage.getBaseUrl(), linksPage.getNodeUrl());
         });
 
+        // todo add correct step name
+
         step("", () -> {
             Assertions.assertEquals(linksPage.getUrlWebPage(), linksPage.getCurrentUrl());
         });
@@ -72,6 +74,8 @@ public class NewTabLinksTests extends TestBase {
             Assertions.assertEquals(linksPage.getBaseUrl(), linksPage.getNodeUrl());
 
         });
+
+        // todo add correct step name
 
         step("", () -> {
             Assertions.assertEquals(linksPage.getUrlWebPage(), linksPage.getCurrentUrl());

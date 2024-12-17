@@ -19,6 +19,7 @@ public class CheckBoxTests extends TestBase {
     void expandAllCheckBoxTest() throws IOException {
         checkBoxPage = new CheckBoxPage(driver);
         step("Перейти в блок 'Elements' и выбрать 'CheckBox'", () -> {
+            // todo move to separate testutil these two lines
             checkBoxPage.openCheckBoxPage(driver);
             driver.navigate().refresh();
         });
@@ -28,8 +29,7 @@ public class CheckBoxTests extends TestBase {
         });
 
         step("Проверка чек-бокса 'Expand All'", () -> {
-            boolean displayed = checkBoxPage.getExpandAllVisible().isDisplayed();
-            Assertions.assertTrue(displayed);
+            Assertions.assertTrue(checkBoxPage.getExpandAllVisible().isDisplayed());
         });
     }
 
